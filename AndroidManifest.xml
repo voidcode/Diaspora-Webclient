@@ -26,33 +26,18 @@
         </activity>
         <activity
             android:theme="@android:style/Theme.NoTitleBar"
-            android:label="@string/app_name"
             android:name=".ShareActivity"
             android:screenOrientation="portrait" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:theme="@android:style/Theme.NoTitleBar"
-            android:label="@string/app_name"
             android:name=".SettingsActivity"
             android:screenOrientation="portrait" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:theme="@android:style/Theme.NoTitleBar"
-            android:label="@string/app_name"
             android:name=".SetupInternetActivity"
             android:screenOrientation="portrait" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <receiver android:name=".WidgetActivity" android:label="Diaspora-Webclient">
             <intent-filter>
