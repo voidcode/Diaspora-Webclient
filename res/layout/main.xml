@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+     <TableLayout android:id="@+id/tableLayout1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_weight="1">
+	    <WebView
+	        android:id="@+id/webView_main"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" />
+    </TableLayout>  
+    <TableLayout android:id="@+id/tableLayout2" android:layout_width="match_parent" android:layout_height="40dip">
+	    <TableRow
+	        android:id="@+id/tableRow2"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <ImageButton
+	            android:onClick="onclick_contacts"
+	            android:id="@+id/imageButton3"
+	            android:layout_width="wrap_content"
+	            android:background="@null"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:src="@drawable/ic_menu_contacts" />
+
+	        <ImageButton
+	            android:id="@+id/imageButton1"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:background="@null"
+	            android:onClick="onclick_stream"
+	            android:src="@drawable/ic_menu_home" />
+	
+	        <ImageButton
+	            android:onClick="onclick_findtag"
+	            android:id="@+id/imageButton4"
+	            android:layout_width="wrap_content"
+	            android:background="@null"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/ic_menu_aspects"
+	            android:layout_weight="1" />
+	
+	    </TableRow>
+	</TableLayout>
+</LinearLayout>
