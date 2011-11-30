@@ -63,8 +63,9 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f050000;
-        public static final int findtag=0x7f050018;
+        public static final int findtag=0x7f050019;
         public static final int findtag_alert_title=0x7f050017;
+        public static final int findtag_alert_validate_needsomedata=0x7f050018;
         public static final int findtag_button=0x7f050016;
         public static final int findtag_h1=0x7f050014;
         public static final int findtag_p=0x7f050015;
@@ -79,7 +80,7 @@ public final class R {
         public static final int menu_profile=0x7f050008;
         public static final int menu_settings=0x7f050004;
         public static final int menu_share=0x7f050002;
-        public static final int settings_button_close=0x7f050019;
+        public static final int settings_button_close=0x7f05001a;
         public static final int settings_button_save=0x7f050010;
         public static final int settings_currentpod=0x7f05000e;
         public static final int settings_h1=0x7f05000c;

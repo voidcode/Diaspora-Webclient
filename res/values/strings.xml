@@ -31,6 +31,7 @@
      <string name="findtag_p">Type a word and see what the stream contains</string>
      <string name="findtag_button">See it´s stream</string>
      <string name="findtag_alert_title">Search by #tag</string>
+     <string name="findtag_alert_validate_needsomedata">Try to add a tag like: #newhere or #art</string>
      <string name="findtag" >findtag</string>
      
          

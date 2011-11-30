@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	public static final String SETTINGS_FILENAME="settings";
@@ -77,7 +79,16 @@ public class MainActivity extends Activity {
 			alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					String inputtag = input.getText().toString().trim();
-					startDiasporaBrowser("/tags/"+inputtag);
+					// this validate the input data for tagfind
+					if(inputtag.equals("") || inputtag.equals(null))
+					{
+						dialog.cancel(); // if user don´t have added a tag
+						Toast.makeText(getApplicationContext(), R.string.findtag_alert_validate_needsomedata, Toast.LENGTH_LONG).show();
+					}
+					else // if user have added a search tag
+					{
+						startDiasporaBrowser("/tags/"+inputtag);
+					}
 				}
 			});
 			alert.setNegativeButton("Cancel",
