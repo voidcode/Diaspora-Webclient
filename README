@@ -1,0 +1,7 @@
+Bug.
+Widget: ShareActivity just load do not stop loading.  
+
+TODO.
+1) Add json paser to read pods from http://podupti.me (only https)
+2) Add Google translate button/ link to all posts (see https://github.com/diaspora/diaspora/issues/2441#issuecomment-2884673)
+3) Add diaspora messages Activtiy
