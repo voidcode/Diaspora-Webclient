@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 	        }
 	        else
 	        {
-	        	// if user don´t internet
+	        	// if user don´t have internet/ Wifi or 3G
 	        	setContentView(R.layout.setupinternet);
 	        }
 	    }
@@ -161,10 +161,11 @@ public class MainActivity extends Activity {
 				    	startDiasporaBrowser("/status_messages/new");
 				        return true;
 				    case R.id.mainmenu_settings:
-				    	startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+				    	this.finish();
+				    	startActivityForResult(new Intent(this, SettingsActivity.class), 100);
 				    	return true;
 				    case R.id.mainmenu_exit:
-				    	finish();
+				    	this.finish();
 						return true;			
 				    default:
 				        return super.onOptionsItemSelected(item);

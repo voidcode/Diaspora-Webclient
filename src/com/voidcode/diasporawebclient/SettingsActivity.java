@@ -4,14 +4,10 @@ package com.voidcode.diasporawebclient;
 import java.io.IOException;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -42,7 +38,12 @@ public class SettingsActivity extends Activity {
         //Fill listview with pods
         fillListview();
     }
-	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		this.finish();
+	}
 	public void fillListview()
 	{
         lvPods = (ListView) findViewById(R.id.listView_poduptime);
@@ -65,8 +66,9 @@ public class SettingsActivity extends Activity {
         SharedPreferences.Editor editor = preferences.edit();
 		editor.putString("currentpod", new_currentpod);
         editor.commit();
-       // to reload webview with the new pod
-        startActivity(new Intent(this, MainActivity.class));
+        this.finish();
+        // to reload webview with the new pod
+        startActivityForResult(new Intent(this, MainActivity.class), 100);
         
         Toast.makeText(getApplicationContext(), "Pod: "+new_currentpod, Toast.LENGTH_LONG).show();
 	}

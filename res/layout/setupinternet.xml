@@ -26,13 +26,6 @@
             android:id="@+id/tableRow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/setupinternet_h1"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </TableRow>
 
@@ -49,13 +42,13 @@
             android:layout_height="wrap_content"
             android:text="@string/setupinternet_text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
         <Button
+            android:onClick="onclick_button_close"
             android:id="@+id/settings_button_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settings_button_close"
-            android:onClick="onclick_settings_button_close" />
+            android:text="@string/settings_button_close" />
 
     </TableLayout>
 
