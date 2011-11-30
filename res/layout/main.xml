@@ -40,7 +40,7 @@
 	            android:layout_width="wrap_content"
 	            android:background="@null"
 	            android:layout_height="wrap_content"
-	            android:src="@drawable/ic_menu_aspects"
+	            android:src="@drawable/ic_menu_search"
 	            android:layout_weight="1" />
 	
 	    </TableRow>

@@ -30,6 +30,9 @@
      <string name="findtag_h1">Findtag</string>
      <string name="findtag_p">Type a word and see what the stream contains</string>
      <string name="findtag_button">See it´s stream</string>
+     <string name="findtag_alert_title">Search by #tag</string>
      <string name="findtag" >findtag</string>
+     
+         
      <string name="settings_button_close">Close</string>
 </resources>

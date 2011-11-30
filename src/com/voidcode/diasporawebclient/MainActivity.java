@@ -73,6 +73,7 @@ public class MainActivity extends Activity {
 			final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			final EditText input = new EditText(this);
 			alert.setView(input);
+			alert.setTitle(R.string.findtag_alert_title);
 			alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					String inputtag = input.getText().toString().trim();
@@ -160,7 +161,7 @@ public class MainActivity extends Activity {
 				    	startDiasporaBrowser("/status_messages/new");
 				        return true;
 				    case R.id.mainmenu_settings:
-				    	startActivity(new Intent(this, SettingsActivity.class));
+				    	startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
 				    	return true;
 				    case R.id.mainmenu_exit:
 				    	finish();
