@@ -1,7 +1,23 @@
-Bug.
-Widget: ShareActivity just load do not stop loading.  
+<h3>Bug.</h3>
+1) Widget: ShareActivity just load do not stop loading. (https://github.com/voidcode/Diaspora-Webclient/blob/master/src/com/voidcode/diasporawebclient/ShareActivity.java)  
 
-TODO.
-1) Add json paser to read pods from http://podupti.me (only https)
+2) SetinternetActivity: Can´t close make a error.
+(https://github.com/voidcode/Diaspora-Webclient/blob/master/src/com/voidcode/diasporawebclient/SetupInternetActivity.java)
+
+3) To many(4) Activity is shown under Applications on the endusers device
+
+
+
+<h3>To download:</h3>
+
+Via link
+http://tiny.cc/letbz
+Or via QR-code.
+<img src="http://qrcode.kaywa.com/img.php?s=8&d=https%3A%2F%2Fgithub.com%2Fvoidcode%2FDiaspora-Webclient%2Fraw%2Fmaster%2Fbin%2Fdiasporawebclient.apk" alt="qrcode"  />
+
+
+
+<h3>TODO.</h3>
+1) Add json paser to read pods from http://podupti.me (only https) (see https://github.com/voidcode/Diaspora-Webclient/blob/master/src/com/voidcode/diasporawebclient/SettingsActivity.java)
 2) Add Google translate button/ link to all posts (see https://github.com/diaspora/diaspora/issues/2441#issuecomment-2884673)
 3) Add diaspora messages Activtiy
