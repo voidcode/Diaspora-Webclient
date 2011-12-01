@@ -110,8 +110,15 @@ public class MainActivity extends Activity {
 		       
 		        //settings.setBuiltInZoomControls(true);
 		        
+		        //get current uri an format it into a title for the AlertDialog
+		        String loadingmsg=uri.substring(1, 2).toUpperCase()+uri.substring(2); 
+		        if(uri.equals("/status_messages/new")) //this is just a workaround
+		        {
+		        	loadingmsg = "Share it";
+		        }
+		        
 		        // the init state of progress dialog
-		        mProgress = ProgressDialog.show(this, "Loading data", "Please wait a moment...");
+		        mProgress = ProgressDialog.show(this, loadingmsg, "Please wait a moment...");
 		        
 		        // add a WebViewClient for WebView, which actually handles loading data from web
 		        mWeb.setWebViewClient(new WebViewClient() {
@@ -136,7 +143,7 @@ public class MainActivity extends Activity {
 		        	}
 		        	// when finish loading page
 		        	public void onPageFinished(WebView view, String url) {
-		        		if(mProgress.isShowing()) {
+		        		 if(mProgress.isShowing()) {
 		        			mProgress.dismiss();
 		        		}
 		        	}
