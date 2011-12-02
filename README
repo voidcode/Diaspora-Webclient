@@ -1,12 +1,9 @@
-How to get it the APK:
-
-Via link
-http://tiny.cc/letbz
-Or via QR-code.
-http://qrcode.kaywa.com/img.php?s=8&d=https%3A%2F%2Fgithub.com%2Fvoidcode%2FDiaspora-Webclient%2Fraw%2Fmaster%2Fbin%2Fdiasporawebclient.apk
-
+Get it via Android Market.
+https://market.android.com/details?id=com.voidcode.diasporawebclient
 
 TODO.
-1) Add json paser to read pods from http://podupti.me (only https) (see https://github.com/voidcode/Diaspora-Webclient/blob/master/src/com/voidcode/diasporawebclient/SettingsActivity.java)
-2) Add Google translate button/ link to all posts (see https://github.com/diaspora/diaspora/issues/2441#issuecomment-2884673)
-3) Add diaspora messages Activtiy
+1) Add: json paser to read pods from http://podupti.me (only https) (see https://github.com/voidcode/Diaspora-Webclient/blob/master/src/com/voidcode/diasporawebclient/SettingsActivity.java)
+2) Add: Google translate button/ link to all posts (see https://github.com/diaspora/diaspora/issues/2441#issuecomment-2884673)
+3) Add: Pod recognition from username handle, instead of 
+choosing it from a list. Maby diaspora connect can do this. 
+4) Add diaspora messages Activtiy. Make like a SMS client.
