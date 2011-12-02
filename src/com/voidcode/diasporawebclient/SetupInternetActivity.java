@@ -3,7 +3,6 @@ package com.voidcode.diasporawebclient;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 public class SetupInternetActivity extends Activity {
 	@Override
@@ -13,8 +12,7 @@ public class SetupInternetActivity extends Activity {
     }
 	public void onclick_button_close(View v)
 	{
-		Toast.makeText(getApplicationContext(), "CLOSE APPEN", Toast.LENGTH_LONG).show();
-	    finish();
+	    this.finish();
 	}
 
 }

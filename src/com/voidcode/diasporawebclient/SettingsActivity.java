@@ -68,7 +68,7 @@ public class SettingsActivity extends Activity {
         editor.commit();
         this.finish();
         // to reload webview with the new pod
-        startActivityForResult(new Intent(this, MainActivity.class), 100);
+        startActivity(new Intent(this, MainActivity.class));
         
         Toast.makeText(getApplicationContext(), "Pod: "+new_currentpod, Toast.LENGTH_LONG).show();
 	}
