@@ -11,7 +11,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -99,7 +99,14 @@ public class MainActivity extends Activity {
 					});
 			alert.show();
 		}
-		 public void startDiasporaBrowser(String uri)
+		//Screen orientation crashes app fix
+		//http://jamesgiang.wordpress.com/2010/06/05/screen-orientation-crashes-my-app/
+		@Override
+		public void onConfigurationChanged(Configuration newConfig) 
+		{
+			super.onConfigurationChanged(newConfig);
+		} 
+		public void startDiasporaBrowser(String uri)
 		 {
 			 	mWeb = (WebView) findViewById(R.id.webView_main);
 			 	
@@ -143,27 +150,6 @@ public class MainActivity extends Activity {
 		        	}
 		        	// when finish loading page
 		        	public void onPageFinished(WebView view, String url) {
-		        		
-		        		// add text-translate to all posts.
-		        		// mWeb.loadUrl("javascript:" +
-		        				 	//get all p tags
-		        		  //          "var p=document.getElementsByTagName('info');" +
-		        		    //        "function googleSectionalElementInit() {"+
-		        		      //      	"new google.translate.SectionalElement({"+
-		        		        //    	"sectionalNodeClassName: 'p',"+
-		        		          //  	"controlNodeClassName: 'goog-trans-control',"+
-		        		            //	"background: '#ffffff'"+
-		        				   // "}, 'google_sectional_element');}"+
-
-//<script src="//translate.google.com/translate_a/element.js?cb=googleSectionalElementInit&ug=section&hl=da"></script>"+
-		        		            
-		        		            
-		        		            
-		        		            //lool: add ids to p tags
-	//	        		            "var i=0; for (i=0;i<=p.length;i++){ p.item(i).id='tttID'+i; p.item(i).innerHTML += p.item(i).innerHTML +' Translate';  } ");
-		        		            
-		        		            
-		        					//"var i=0; for (i=0;i<=info.length;i++){ p.item(i).id='tttID'+i; }");
 		        		 if(mProgress.isShowing()) {
 		        			mProgress.dismiss();
 		        		}
@@ -202,7 +188,6 @@ public class MainActivity extends Activity {
 				    case R.id.mainmenu_settings:
 				    	this.finish();
 				    	startActivity(new Intent(this, SettingsActivity.class));
-				    	//startActivityForResult(new Intent(this, SettingsActivity.class), 100);
 				    	return true;
 				    case R.id.mainmenu_exit:
 				    	this.finish();

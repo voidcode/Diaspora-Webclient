@@ -6,7 +6,9 @@ import java.io.IOException;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,12 +40,13 @@ public class SettingsActivity extends Activity {
         //Fill listview with pods
         fillListview();
     }
+	//Screen orientation crashes app fix
+	//http://jamesgiang.wordpress.com/2010/06/05/screen-orientation-crashes-my-app/
 	@Override
-	public void onPause()
+	public void onConfigurationChanged(Configuration newConfig) 
 	{
-		super.onPause();
-		this.finish();
-	}
+		super.onConfigurationChanged(newConfig);
+	} 
 	public void fillListview()
 	{
         lvPods = (ListView) findViewById(R.id.listView_poduptime);
@@ -55,6 +58,20 @@ public class SettingsActivity extends Activity {
 			}
         });
 	}
+	// Handle the Back button in WebView, to back in history.
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent msg){
+        if((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            this.finish();
+        	startActivity(new Intent(this, MainActivity.class));
+        	return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 	public void Onclick_SaveSettings(View v) throws IOException
 	{
 		//get userinput
@@ -67,9 +84,7 @@ public class SettingsActivity extends Activity {
 		editor.putString("currentpod", new_currentpod);
         editor.commit();
         this.finish();
-        // to reload webview with the new pod
         startActivity(new Intent(this, MainActivity.class));
-        
         Toast.makeText(getApplicationContext(), "Pod: "+new_currentpod, Toast.LENGTH_LONG).show();
 	}
 }

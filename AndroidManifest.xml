@@ -16,7 +16,8 @@
         <activity
             android:theme="@android:style/Theme.NoTitleBar"
             android:label="@string/app_name"
-            android:name=".MainActivity">
+            android:name=".MainActivity"
+            android:configChanges="orientation">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,15 +25,18 @@
         </activity>
         <activity
             android:theme="@android:style/Theme.NoTitleBar"
-            android:name=".ShareActivity">
+            android:name=".ShareActivity"
+            android:configChanges="orientation">
         </activity>
         <activity
             android:theme="@android:style/Theme.NoTitleBar"
-            android:name=".SettingsActivity">
+            android:name=".SettingsActivity"
+            android:configChanges="orientation">
         </activity>
         <activity
             android:theme="@android:style/Theme.NoTitleBar"
-            android:name=".SetupInternetActivity">
+            android:name=".SetupInternetActivity"
+            android:configChanges="orientation">
         </activity>
         <receiver android:name=".WidgetActivity" android:label="Diaspora-Webclient">
             <intent-filter>
