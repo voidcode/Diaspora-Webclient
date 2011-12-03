@@ -35,7 +35,7 @@ public class SettingsActivity extends Activity {
 	public ListView lvPods;
 	public static final String SETTINGS_FILENAME="settings";
 	public static final String defaultPod = "https://diasp.eu"; // This is the default-pod
-	private String lvPods_arr[] = getPods();// {"https://joindiaspora.com", "https://diasp.eu", "https://diasp.org", "https://wk3.org","https://londondiaspora.org", "https://nerdpol.ch" ,"https://wk3.org" ,"https://diaspora.eigenlab.org" ,"https://ser.endipito.us" ,"https://my-seed.com" ,"https://foobar.cx" ,"https://diasp.eu.com" ,"https://diasp.de" ,"https://ottospora.nl" ,"https://stylr.net" ,"https://pod.matstace.me.uk" ,"https://loofi.de" ,"https://social.mathaba.net","https://ilikefreedom.org" ,"https://diaspora.podzimek.org" ,"https://group.lt","https://jauspora.com" ,"https://diaspora.f4n.de" ,"https://free-beer.ch","https://diasp0ra.ca" ,"https://diaspora.subsignal.org" ,"https://pod.geraspora.de","https://diaspora.sjau.ch" ,"https://poddery.com" ,"https://diaspor.at","https://diaspora.filundschmer.at" ,"https://spora.com.ua" ,"https://hasst-euch-alle.de","https://diasp.urbanabydos.ca" ,"https://dipod.org" ,"https://Nesc.io","https://dipod.es" ,"https://dipod.es" ,"https://pod.nocentre.net","https://mispora.net" ,"https://privit.us" ,"https://failure.net"};
+	private String lvPods_arr[] = getPods();// Previously => {"https://joindiaspora.com", "https://diasp.eu", "https://diasp.org", "https://wk3.org","https://londondiaspora.org", "https://nerdpol.ch" ,"https://wk3.org" ,"https://diaspora.eigenlab.org" ,"https://ser.endipito.us" ,"https://my-seed.com" ,"https://foobar.cx" ,"https://diasp.eu.com" ,"https://diasp.de" ,"https://ottospora.nl" ,"https://stylr.net" ,"https://pod.matstace.me.uk" ,"https://loofi.de" ,"https://social.mathaba.net","https://ilikefreedom.org" ,"https://diaspora.podzimek.org" ,"https://group.lt","https://jauspora.com" ,"https://diaspora.f4n.de" ,"https://free-beer.ch","https://diasp0ra.ca" ,"https://diaspora.subsignal.org" ,"https://pod.geraspora.de","https://diaspora.sjau.ch" ,"https://poddery.com" ,"https://diaspor.at","https://diaspora.filundschmer.at" ,"https://spora.com.ua" ,"https://hasst-euch-alle.de","https://diasp.urbanabydos.ca" ,"https://dipod.org" ,"https://Nesc.io","https://dipod.es" ,"https://dipod.es" ,"https://pod.nocentre.net","https://mispora.net" ,"https://privit.us" ,"https://failure.net"};
 	private EditText editTextCurrentpod;
 	JSONArray jsonArray;
 	@Override
@@ -44,8 +44,7 @@ public class SettingsActivity extends Activity {
         setContentView(R.layout.settings);
         SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
         editTextCurrentpod = (EditText) findViewById(R.id.editText_currentpod);        
-        editTextCurrentpod.setText(preferences.getString("currentpod", defaultPod));
-        
+        editTextCurrentpod.setText(preferences.getString("currentpod", defaultPod));       
         //Fill listview with pods
         fillListview();
     }
@@ -64,17 +63,14 @@ public class SettingsActivity extends Activity {
 	public void Onclick_SaveSettings(View v) throws IOException
 	{
 		//get userinput
-		String new_currentpod = editTextCurrentpod.getText().toString();
-		
-		SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
-		
+		String new_currentpod = editTextCurrentpod.getText().toString();		
+		SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);		
 		// Save the new currentpod
         SharedPreferences.Editor editor = preferences.edit();
 		editor.putString("currentpod", new_currentpod);
         editor.commit();
        // to reload webview with the new pod
         startActivity(new Intent(this, MainActivity.class));
-        
         Toast.makeText(getApplicationContext(), "Pod: "+new_currentpod, Toast.LENGTH_LONG).show();
 	}
 	
@@ -115,12 +111,11 @@ public class SettingsActivity extends Activity {
 			Log.i("Diaspora-WebClient","Number of entries " + jr.length());
 			list=new ArrayList<String>();
 			for (int i = 0; i < jr.length(); i++) {
-				JSONObject jsonObject = jr.getJSONObject(i);
-				Log.i("Diaspora-WebClient", jsonObject.getString("domain"));
-				String secure=jsonObject.getString("secure");
+				JSONObject jo = jr.getJSONObject(i);
+				Log.i("Diaspora-WebClient", jo.getString("domain"));
+				String secure=jo.getString("secure");
 				if(secure.equals("true"))
-				list.add("https://"+jsonObject.getString("domain"));
-				
+				list.add("https://"+jo.getString("domain"));				
 				}
 
 		}catch (Exception e) {
