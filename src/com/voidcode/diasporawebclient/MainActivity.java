@@ -8,6 +8,7 @@ import com.voidcode.diasporawebclient.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -109,6 +110,7 @@ public class MainActivity extends Activity {
 		public void startDiasporaBrowser(String uri)
 		 {
 			 	mWeb = (WebView) findViewById(R.id.webView_main);
+			 	mWeb.addJavascriptInterface(new JavaScriptInterface(this), "Android");
 			 	
 		       	//setContentView(mWeb);
 		        // set Javascript
@@ -150,6 +152,12 @@ public class MainActivity extends Activity {
 		        	}
 		        	// when finish loading page
 		        	public void onPageFinished(WebView view, String url) {
+		        		mWeb.loadUrl("javascript:(function() { " +
+		        							//"var i=0;"+
+		        							//"for (i=0; i<=5; i++) {"+
+		        	           					"document.getElementsByClassName('summary').item(0).innerHTML='<a href=\\'#\\' onclick=\\'translate()\\' >Translate</a><br/><br/>';" +
+		        	           				//"}"+
+		        					"})()");
 		        		 if(mProgress.isShowing()) {
 		        			mProgress.dismiss();
 		        		}
@@ -178,7 +186,8 @@ public class MainActivity extends Activity {
 		        return true;
 		    }
 		    @Override
-		    public boolean onOptionsItemSelected(MenuItem item) {
+		    public boolean onOptionsItemSelected(MenuItem item) 
+		    {
 		    	// Handle item selection
 			    switch (item.getItemId()) 
 			    {
@@ -186,7 +195,7 @@ public class MainActivity extends Activity {
 				    	startDiasporaBrowser("/status_messages/new");
 				        return true;
 				    case R.id.mainmenu_settings:
-				    	this.finish();
+				    	ActivityFinish();
 				    	startActivity(new Intent(this, SettingsActivity.class));
 				    	return true;
 				    case R.id.mainmenu_exit:
@@ -196,4 +205,9 @@ public class MainActivity extends Activity {
 				        return super.onOptionsItemSelected(item);
 			    }
 		    }
+		    public void ActivityFinish()
+		    {
+		    	this.finish();
+		    }
+		    
 }

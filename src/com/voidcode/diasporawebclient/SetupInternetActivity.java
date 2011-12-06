@@ -11,10 +11,6 @@ public class SetupInternetActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setupinternet);
     }
-	public void onclick_button_close(View v)
-	{
-	    this.finish();
-	}
 	//Screen orientation crashes app fix
 	//http://jamesgiang.wordpress.com/2010/06/05/screen-orientation-crashes-my-app/
 	@Override
