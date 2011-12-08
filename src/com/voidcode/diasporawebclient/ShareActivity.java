@@ -1,5 +1,6 @@
 package com.voidcode.diasporawebclient;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,14 +16,18 @@ public class ShareActivity extends MainActivity {
         NetworkInfo m3G = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         if (mWifi.isConnected() || m3G.isConnected()) 
         {
-        	// load: open a new messages
-        	mWeb.loadUrl(main_domain+"/status_messages/new");
+        	//i
+        	if(!this.main_domain.equals(""))
+        	{
+        		// load: open a new messages
+        		mWeb.loadUrl("https://"+main_domain+"/status_messages/new");
+        	}
+        	else
+        	{
+	        	this.finish();
+        		startActivity(new Intent(this, SettingsActivity.class));
+        	}
         }
-        else
-        {
-        	// if user don´t have internet/ Wifi or 3G
-        	setContentView(R.layout.setupinternet);
-        }        	
     }
 	//Screen orientation crashes app fix
 	//http://jamesgiang.wordpress.com/2010/06/05/screen-orientation-crashes-my-app/

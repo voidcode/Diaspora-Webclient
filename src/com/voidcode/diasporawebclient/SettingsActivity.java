@@ -20,14 +20,9 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-<<<<<<< HEAD
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
-=======
-import android.os.Bundle;
-import android.util.Log;
->>>>>>> c7c776c4bac93c9538f07b0da9feccf776509ab6
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -40,8 +35,7 @@ public class SettingsActivity extends Activity {
 	//public EditText editTextCurrentpod;
 	public ListView lvPods;
 	public static final String SETTINGS_FILENAME="settings";
-	public static final String defaultPod = "https://diasp.eu"; // This is the default-pod
-	private String lvPods_arr[] = getPods();// Previously => {"https://joindiaspora.com", "https://diasp.eu", "https://diasp.org", "https://wk3.org","https://londondiaspora.org", "https://nerdpol.ch" ,"https://wk3.org" ,"https://diaspora.eigenlab.org" ,"https://ser.endipito.us" ,"https://my-seed.com" ,"https://foobar.cx" ,"https://diasp.eu.com" ,"https://diasp.de" ,"https://ottospora.nl" ,"https://stylr.net" ,"https://pod.matstace.me.uk" ,"https://loofi.de" ,"https://social.mathaba.net","https://ilikefreedom.org" ,"https://diaspora.podzimek.org" ,"https://group.lt","https://jauspora.com" ,"https://diaspora.f4n.de" ,"https://free-beer.ch","https://diasp0ra.ca" ,"https://diaspora.subsignal.org" ,"https://pod.geraspora.de","https://diaspora.sjau.ch" ,"https://poddery.com" ,"https://diaspor.at","https://diaspora.filundschmer.at" ,"https://spora.com.ua" ,"https://hasst-euch-alle.de","https://diasp.urbanabydos.ca" ,"https://dipod.org" ,"https://Nesc.io","https://dipod.es" ,"https://dipod.es" ,"https://pod.nocentre.net","https://mispora.net" ,"https://privit.us" ,"https://failure.net"};
+	private String lvPods_arr[] = getPods();
 	private EditText editTextCurrentpod;
 	JSONArray jsonArray;
 	@Override
@@ -50,7 +44,7 @@ public class SettingsActivity extends Activity {
         setContentView(R.layout.settings);
         SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
         editTextCurrentpod = (EditText) findViewById(R.id.editText_currentpod);        
-        editTextCurrentpod.setText(preferences.getString("currentpod", defaultPod));       
+        editTextCurrentpod.setText(preferences.getString("currentpod", "You need to choose a pod"));       
         //Fill listview with pods
         fillListview();
     }
@@ -78,7 +72,6 @@ public class SettingsActivity extends Activity {
         if((keyCode == KeyEvent.KEYCODE_BACK))
         {
             this.finish();
-        	startActivity(new Intent(this, MainActivity.class));
         	return false;
         }
         else
@@ -120,7 +113,7 @@ public class SettingsActivity extends Activity {
 				}
 			} else {
 				//TODO  Notify User about failure
-				Log.e("Diaspora-WebClient", "Failed to download file");
+				//Log.e("Diaspora-WebClient", "Failed to download file");
 			}
 		} catch (ClientProtocolException e) {
 			//TODO handle network unreachable exception here
@@ -134,14 +127,14 @@ public class SettingsActivity extends Activity {
 		try {
 			JSONObject j=new JSONObject(builder.toString());			
 			JSONArray jr=j.getJSONArray("pods");
-			Log.i("Diaspora-WebClient","Number of entries " + jr.length());
+			//Log.i("Diaspora-WebClient","Number of entries " + jr.length());
 			list=new ArrayList<String>();
 			for (int i = 0; i < jr.length(); i++) {
 				JSONObject jo = jr.getJSONObject(i);
-				Log.i("Diaspora-WebClient", jo.getString("domain"));
+				//Log.i("Diaspora-WebClient", jo.getString("domain"));
 				String secure=jo.getString("secure");
 				if(secure.equals("true"))
-				list.add("https://"+jo.getString("domain"));				
+					list.add(jo.getString("domain"));				
 				}
 
 		}catch (Exception e) {

@@ -8,7 +8,6 @@ import com.voidcode.diasporawebclient.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,7 +29,6 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	public static final String SETTINGS_FILENAME="settings";
-	public static final String defaultPod = "https://diasp.eu"; // This is the default-pod
 	public String main_domain;
 	public WebView mWeb;
 	public ProgressDialog mProgress;
@@ -47,15 +45,26 @@ public class MainActivity extends Activity {
 	        	setContentView(R.layout.main);
 	        	// load main domain´s rooturl
 	        	SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
-	        	this.main_domain = preferences.getString("currentpod", defaultPod); 
+	        	this.main_domain = preferences.getString("currentpod", ""); 
 	        	
-	        	// goto users stream
-	        	startDiasporaBrowser("/stream");
+	        	//if user don´t has set a currentpod
+	        	//then open SettingsActivity
+	        	if(this.main_domain.equals("")) 
+	        	{
+	        		this.finish();
+	        		startActivity(new Intent(this, SettingsActivity.class));	
+	        	}
+	        	else
+	        	{
+	        		// goto users stream
+	        		startDiasporaBrowser("/stream");
+	        	}
 	        }
 	        else
 	        {
 	        	// if user don´t have internet/ Wifi or 3G
-	        	setContentView(R.layout.setupinternet);
+	        	this.finish();
+        		startActivity(new Intent(this, SetupInternetActivity.class));
 	        }
 	    }
 		public void onclick_stream(View v)
@@ -110,14 +119,13 @@ public class MainActivity extends Activity {
 		public void startDiasporaBrowser(String uri)
 		 {
 			 	mWeb = (WebView) findViewById(R.id.webView_main);
-			 	mWeb.addJavascriptInterface(new JavaScriptInterface(this), "Android");
 			 	
 		       	//setContentView(mWeb);
 		        // set Javascript
 		        WebSettings settings = mWeb.getSettings();
 		        settings.setJavaScriptEnabled(true);
 		       
-		        //settings.setBuiltInZoomControls(true);
+		        settings.setBuiltInZoomControls(true);
 		        
 		        //get current uri an format it into a title for the AlertDialog
 		        String loadingmsg=uri.substring(1, 2).toUpperCase()+uri.substring(2); 
@@ -129,13 +137,18 @@ public class MainActivity extends Activity {
 		        // the init state of progress dialog
 		        mProgress = ProgressDialog.show(this, loadingmsg, "Please wait a moment...");
 		        
+		        //The JsReshareHandler class and this is a fix to bug 2: cannot reshare
+		        //see: https://github.com/voidcode/Diaspora-Webclient/issues/2
+		        JsReshareHandler myJsReshareHandler = new JsReshareHandler();
+		        mWeb.setWebChromeClient(myJsReshareHandler);
+		        
 		        // add a WebViewClient for WebView, which actually handles loading data from web
 		        mWeb.setWebViewClient(new WebViewClient() {
 		        	// load url
 		        	public boolean shouldOverrideUrlLoading(WebView view, String url) 
 		        	{
 		        		//this see if the user is trying to open a internel or externel link
-		        		Pattern pattern = Pattern.compile("^(https?)://"+main_domain.substring(8)+"[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+		        		Pattern pattern = Pattern.compile("^(https?)://"+main_domain+"[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
 		        		Matcher matcher = pattern.matcher(url);
 		        		if (matcher.matches()) //if internel(on main_domain) eks: joindiaspora.com
 		        		{  
@@ -152,19 +165,13 @@ public class MainActivity extends Activity {
 		        	}
 		        	// when finish loading page
 		        	public void onPageFinished(WebView view, String url) {
-		        		mWeb.loadUrl("javascript:(function() { " +
-		        							//"var i=0;"+
-		        							//"for (i=0; i<=5; i++) {"+
-		        	           					"document.getElementsByClassName('summary').item(0).innerHTML='<a href=\\'#\\' onclick=\\'translate()\\' >Translate</a><br/><br/>';" +
-		        	           				//"}"+
-		        					"})()");
 		        		 if(mProgress.isShowing()) {
 		        			mProgress.dismiss();
 		        		}
 		        	}
 		        });      
 		        // open pages in webview
-				mWeb.loadUrl(main_domain+uri);
+				mWeb.loadUrl("https://" + main_domain+uri);
 		    }
 		    // Handle the Back button in WebView, to back in history.
 		    @Override
@@ -186,8 +193,7 @@ public class MainActivity extends Activity {
 		        return true;
 		    }
 		    @Override
-		    public boolean onOptionsItemSelected(MenuItem item) 
-		    {
+		    public boolean onOptionsItemSelected(MenuItem item) {
 		    	// Handle item selection
 			    switch (item.getItemId()) 
 			    {
@@ -195,7 +201,7 @@ public class MainActivity extends Activity {
 				    	startDiasporaBrowser("/status_messages/new");
 				        return true;
 				    case R.id.mainmenu_settings:
-				    	ActivityFinish();
+				    	this.finish();
 				    	startActivity(new Intent(this, SettingsActivity.class));
 				    	return true;
 				    case R.id.mainmenu_exit:
@@ -205,9 +211,4 @@ public class MainActivity extends Activity {
 				        return super.onOptionsItemSelected(item);
 			    }
 		    }
-		    public void ActivityFinish()
-		    {
-		    	this.finish();
-		    }
-		    
 }
