@@ -22,11 +22,6 @@ public class ShareActivity extends MainActivity {
         		// load: open a new messages
         		mWeb.loadUrl("https://"+main_domain+"/status_messages/new");
         	}
-        	else
-        	{
-	        	this.finish();
-        		startActivity(new Intent(this, SettingsActivity.class));
-        	}
         }
     }
 	//Screen orientation crashes app fix
