@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class ShareActivity extends MainActivity {
 	@Override
@@ -16,11 +18,36 @@ public class ShareActivity extends MainActivity {
         NetworkInfo m3G = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         if (mWifi.isConnected() || m3G.isConnected()) 
         {
-        	//i
+        	
         	if(!this.main_domain.equals(""))
-        	{
-        		// load: open a new messages
-        		mWeb.loadUrl("https://"+main_domain+"/status_messages/new");
+        	{	
+        		//when you are on eg your default browser and choose 'share with', 
+        		//and then choose 'Diaspora-Webclient' it goto here 
+        		Intent intent = getIntent();
+        		Bundle extras = intent.getExtras();
+        		String action = intent.getAction();
+        		if (Intent.ACTION_SEND.equals(action)) 
+        		{  
+        			if (extras.containsKey(Intent.EXTRA_TEXT)) 
+        			{
+        				//get url on the site user will share
+		        		final String pagesUrl = (String) extras.get(Intent.EXTRA_TEXT);
+		        		mWeb.setWebViewClient(new WebViewClient() 
+		        		{
+				        	public void onPageFinished(WebView view, String url) 
+				        	{
+				        		//inject share pageurl into 'textarea' via javascript
+				        	    mWeb.loadUrl("javascript:(function() { " +  
+				        	                "document.getElementsByTagName('textarea')[0].innerHTML = '"+pagesUrl+" - #bookmark'; " +  
+				        	                "})()");  
+				        		if(mProgress.isShowing())
+				        			mProgress.dismiss();
+				        	}
+				        });
+		        		// load: open new messages
+		            	mWeb.loadUrl("https://"+main_domain+"/status_messages/new");
+				    }
+        		}
         	}
         }
     }
