@@ -25,9 +25,7 @@
         android:id="@+id/editText_currentpod"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settings_currentpod" >
-
-        <requestFocus />
+        android:text="@string/settings_currentpod">
     </EditText>
 
     <Button

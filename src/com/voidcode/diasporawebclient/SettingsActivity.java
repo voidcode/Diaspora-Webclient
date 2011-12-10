@@ -22,6 +22,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,18 +38,66 @@ public class SettingsActivity extends Activity {
 	//public EditText editTextCurrentpod;
 	public ListView lvPods;
 	public static final String SETTINGS_FILENAME="settings";
-	private String lvPods_arr[] = getPods();
+	public String lvPods_arr[] = getPods();
 	private EditText editTextCurrentpod;
+	private String needchoosepod ="You need to choose a pod";
 	JSONArray jsonArray;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-        SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
-        editTextCurrentpod = (EditText) findViewById(R.id.editText_currentpod);        
-        editTextCurrentpod.setText(preferences.getString("currentpod", "You need to choose a pod"));       
-        //Fill listview with pods
-        fillListview();
+        
+        editTextCurrentpod = (EditText) findViewById(R.id.editText_currentpod);       
+        lvPods = (ListView) findViewById(R.id.listView_poduptime);
+        // lvPods.setTextFilterEnabled(true);
+        // lvPods.setFilterText("");
+        lvPods.setFastScrollEnabled(true);
+        
+        //Add: onkeyup search , A fast find search on editTextCurrentpod, So user don´t have to scholl the podlist to finde a pod 
+        editTextCurrentpod.addTextChangedListener(new TextWatcher() 
+        { 
+        	int i=0;
+        	String filter_podurl_arr[] = new String[lvPods_arr.length];
+		    public void beforeTextChanged(CharSequence s, int start, int count, int after) 
+		    {
+		    	editTextCurrentpod.requestFocus();
+		    }
+		    public void onTextChanged(CharSequence s, int start, int before, int count) 
+		    {
+		    	//TODO 
+		    	//try search on 'diasp.org' then listview show to or more 'diasp.org'´s
+			    //mabay this is some to do with the sixe of the 'filter_podurl_arr[]' base on 'lvPods_arr.length'
+		    	//or the loop mabay is OfByOne 
+		    	i=0;
+		    	 for(String podurl:lvPods_arr)
+		    	 {
+			    	if(podurl.startsWith(s.toString()))
+			    	{
+			    		Log.i("compareTo ["+i+"]", "podurl="+podurl);
+			    		filter_podurl_arr[i] = podurl;
+			    		i++;
+			    	}
+		    	 }
+		    }
+			public void afterTextChanged(Editable s) 
+			{
+				if(filter_podurl_arr.length >0)
+					fillListview(filter_podurl_arr); //add reslut to listview					
+			}
+		});
+        
+        //TODO
+        //need to find a way to show the podlist on inti
+        //this fill listview with pods
+        //but user can´t click on pods in listview, end in error 
+        //fillListview(this.lvPods_arr);
+        
+        // SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
+        // Toast.makeText(getApplicationContext(), preferences.getString("currentpod", needchoosepod), Toast.LENGTH_SHORT).show();
+        //Inti fill listview with pods
+        
+        // if(preferences.getString("currentpod", needchoosepod).equals(needchoosepod))
+        //	fillListview(this.lvPods_arr);
     }
 	//Screen orientation crashes app fix
 	//http://jamesgiang.wordpress.com/2010/06/05/screen-orientation-crashes-my-app/
@@ -55,10 +106,10 @@ public class SettingsActivity extends Activity {
 	{
 		super.onConfigurationChanged(newConfig);
 	} 
-	public void fillListview()
+	public void fillListview(String _lvPods_arr[])
 	{
-        lvPods = (ListView) findViewById(R.id.listView_poduptime);
-        lvPods.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,lvPods_arr));
+        
+        lvPods.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,_lvPods_arr));
         lvPods.setOnItemClickListener(new OnItemClickListener(){
 			public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 				//onclick put select pod to editTextCurrentpod 	

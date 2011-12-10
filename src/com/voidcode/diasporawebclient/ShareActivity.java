@@ -12,21 +12,22 @@ public class ShareActivity extends MainActivity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         NetworkInfo m3G = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         if (mWifi.isConnected() || m3G.isConnected()) 
         {
-        	
         	if(!this.main_domain.equals(""))
         	{	
+        		// load: open new messages
+        		mWeb.loadUrl("https://"+main_domain+"/status_messages/new");
+        		
         		//when you are on eg your default browser and choose 'share with', 
         		//and then choose 'Diaspora-Webclient' it goto here 
         		Intent intent = getIntent();
         		Bundle extras = intent.getExtras();
         		String action = intent.getAction();
-        		if (Intent.ACTION_SEND.equals(action)) 
+        		if (Intent.ACTION_SEND.equals(action)) //if user has 
         		{  
         			if (extras.containsKey(Intent.EXTRA_TEXT)) 
         			{
@@ -36,16 +37,18 @@ public class ShareActivity extends MainActivity {
 		        		{
 				        	public void onPageFinished(WebView view, String url) 
 				        	{
+				        		//TODO
+				        		//user has to touch the 'textarea' before bookmarklink is paste
+				        		//this have to be intent
+				
 				        		//inject share pageurl into 'textarea' via javascript
 				        	    mWeb.loadUrl("javascript:(function() { " +  
-				        	                "document.getElementsByTagName('textarea')[0].innerHTML = '"+pagesUrl+" - #bookmark'; " +  
+				        	                "document.getElementsByTagName('textarea')[0].innerHTML = '"+pagesUrl+" | #bookmark'; " +  
 				        	                "})()");  
 				        		if(mProgress.isShowing())
 				        			mProgress.dismiss();
 				        	}
-				        });
-		        		// load: open new messages
-		            	mWeb.loadUrl("https://"+main_domain+"/status_messages/new");
+				        });	
 				    }
         		}
         	}

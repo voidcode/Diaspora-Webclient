@@ -17,7 +17,7 @@
     <string name="menu_exit">Exit</string>
     
     <string name="settings_h1">Settings.</string>
-    <string name="settings_text_currentpod">This is your current pod.</string>
+    <string name="settings_text_currentpod">Find your pod.</string>
     <string name="settings_currentpod"></string>
     
     <string name="widget_button_share">Share on diaspora</string>   
@@ -25,7 +25,7 @@
      <string name="settings_button_save">Use this pod</string>
      
      <string name="setupinternet_h1">Setup internet</string>
-     <string name="setupinternet_text">Wifi or 3G is not connect!!</string>
+     <string name="setupinternet_text">You need a Wifi or 3G connection!!</string>
      <string name="setupinternet_button">Close</string>
      <string name="findtag_h1">Findtag</string>
      <string name="findtag_p">Type a word and see what the stream contains</string>

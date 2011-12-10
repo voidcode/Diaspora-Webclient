@@ -21,6 +21,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -43,6 +45,7 @@ public class MainActivity extends Activity {
 	        {
 	        	// set the home screen
 	        	setContentView(R.layout.main);
+	        	
 	        	// load main domain´s rooturl
 	        	SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
 	        	this.main_domain = preferences.getString("currentpod", ""); 
@@ -51,13 +54,14 @@ public class MainActivity extends Activity {
 	        	//then open SettingsActivity
 	        	if(this.main_domain.equals("")) 
 	        	{
-	        		this.finish();
+	        		//this.finish();
 	        		startActivity(new Intent(this, SettingsActivity.class));	
 	        	}
 	        	else
 	        	{
 	        		// goto users stream
 	        		startDiasporaBrowser("/stream");
+	        		Toast.makeText(getApplicationContext(), "Pod: "+main_domain, Toast.LENGTH_SHORT).show();
 	        	}
 	        }
 	        else
@@ -119,13 +123,11 @@ public class MainActivity extends Activity {
 		public void startDiasporaBrowser(String uri)
 		 {
 			 	mWeb = (WebView) findViewById(R.id.webView_main);
-			 	
-		       	//setContentView(mWeb);
 		        // set Javascript
 		        WebSettings settings = mWeb.getSettings();
 		        settings.setJavaScriptEnabled(true);
 		       
-		        settings.setBuiltInZoomControls(true);
+		        //settings.setBuiltInZoomControls(true);
 		        
 		        //get current uri an format it into a title for the AlertDialog
 		        String loadingmsg=uri.substring(1, 2).toUpperCase()+uri.substring(2); 
@@ -139,10 +141,16 @@ public class MainActivity extends Activity {
 		        
 		        //The JsReshareHandler class and this is a fix to bug 2: cannot reshare
 		        //see: https://github.com/voidcode/Diaspora-Webclient/issues/2
-		        JsReshareHandler myJsReshareHandler = new JsReshareHandler();
-		        mWeb.setWebChromeClient(myJsReshareHandler);
+		        mWeb.setWebChromeClient(new WebChromeClient() {
+		        	public boolean onJsAlert(WebView view, String url, String message, JsResult result)
+		            {            
+		        		return true;
+		            }
+		        });
+			    
+		        // adds JSInterface class to webview
+		        mWeb.addJavascriptInterface(new JSInterface(mWeb), "jsinterface");
 		        
-		        // add a WebViewClient for WebView, which actually handles loading data from web
 		        mWeb.setWebViewClient(new WebViewClient() {
 		        	// load url
 		        	public boolean shouldOverrideUrlLoading(WebView view, String url) 
@@ -163,8 +171,28 @@ public class MainActivity extends Activity {
 		  	               	 return true;
 		        	    }
 		        	}
-		        	// when finish loading page
-		        	public void onPageFinished(WebView view, String url) {
+		        	public void onPageFinished(WebView view, String url) { // when finish loading page
+		        		//Inject google translate via javascript to all posts
+		        	    mWeb.loadUrl("javascript:(function() { " +  
+		        	    			//get variables
+		        	    			"var i=0; "+
+		        	    			"var ltrs=document.getElementsByClassName('ltr'); "+
+		        	    			"var floaters=document.getElementsByClassName('floater'); "+
+		        	    			
+		        	    			//loop: adds translate buttons to all 'ltr' tags
+		        	    			"for(i=0;i<ltrs.length;i++) "+
+		        	    			"{"+ 
+		        	    				"var btn = document.createElement('div'); "+//inti new div	
+		        	    				"btn.setAttribute('onclick','window.jsinterface.GoogleV2TranslateStart( \"btn_translate_id_'+i+'\" );'); "+//adds onclick-handler
+		        	    				"btn.setAttribute('style','margin:15px 0px 15px 0px;'); "+//adds style
+		        	    				
+		        	    				"btn.id='btn_translate_id_'+i; "+//adds id
+		        	    				"btn.innerHTML='Translate this post'; "+//adds innerHTML
+		        	    				
+		        	    				//append new button to post '.ltr'
+		        	    				"ltrs.item(i).appendChild(btn); "+ 
+		        	    			"} "+
+		        	                "})()");  
 		        		 if(mProgress.isShowing()) {
 		        			mProgress.dismiss();
 		        		}

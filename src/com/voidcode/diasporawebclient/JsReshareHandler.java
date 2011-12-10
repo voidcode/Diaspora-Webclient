@@ -21,8 +21,9 @@ public class JsReshareHandler extends WebChromeClient {
 	@Override
 	public boolean onJsAlert(WebView view, String url, String message, JsResult result)
     {
+		final AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
 		final JsResult finalRes = result;
-        new AlertDialog.Builder(view.getContext())
+		alert
             .setMessage(message)
             .setPositiveButton(android.R.string.ok,
                     new AlertDialog.OnClickListener()
@@ -34,6 +35,16 @@ public class JsReshareHandler extends WebChromeClient {
             .setCancelable(false)
             .create()
             .show();
+		
+		//Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+    	//sharingIntent.setType("text/plain");
+
+    	//String shareBody = "Here is the share content body";
+
+    	//sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+    	//sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+    	//sharingIntent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[]{"abc@def.com,pqr@xyz.com"});
+    	//startActivity(Intent.createChooser(sharingIntent, "Share via"));
         return true;
     }
 }
