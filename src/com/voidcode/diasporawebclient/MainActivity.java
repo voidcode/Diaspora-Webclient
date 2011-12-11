@@ -136,10 +136,10 @@ public class MainActivity extends Activity {
 		        	loadingmsg = "Share it";
 		        }
 		        
-		        // the init state of progress dialog
+		        //the init state of progress dialog
 		        mProgress = ProgressDialog.show(this, loadingmsg, "Please wait a moment...");
 		        
-		        //The JsReshareHandler class and this is a fix to bug 2: cannot reshare
+		        //fix to bug 2: cannot reshare
 		        //see: https://github.com/voidcode/Diaspora-Webclient/issues/2
 		        mWeb.setWebChromeClient(new WebChromeClient() {
 		        	public boolean onJsAlert(WebView view, String url, String message, JsResult result)
@@ -147,7 +147,6 @@ public class MainActivity extends Activity {
 		        		return true;
 		            }
 		        });
-			    
 		        // adds JSInterface class to webview
 		        mWeb.addJavascriptInterface(new JSInterface(mWeb), "jsinterface");
 		        

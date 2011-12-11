@@ -40,7 +40,6 @@ public class SettingsActivity extends Activity {
 	public static final String SETTINGS_FILENAME="settings";
 	public String lvPods_arr[] = getPods();
 	private EditText editTextCurrentpod;
-	private String needchoosepod ="You need to choose a pod";
 	JSONArray jsonArray;
 	@Override
     public void onCreate(Bundle savedInstanceState) {

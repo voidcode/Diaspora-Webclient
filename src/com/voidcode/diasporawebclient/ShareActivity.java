@@ -29,10 +29,10 @@ public class ShareActivity extends MainActivity {
         		String action = intent.getAction();
         		if (Intent.ACTION_SEND.equals(action)) //if user has 
         		{  
-        			if (extras.containsKey(Intent.EXTRA_TEXT)) 
+        			if (extras.containsKey(Intent.EXTRA_TEXT) && extras.containsKey(Intent.EXTRA_SUBJECT)) 
         			{
-        				//get url on the site user will share
-		        		final String pagesUrl = (String) extras.get(Intent.EXTRA_TEXT);
+		        		final String pagesUrl = (String) extras.get(Intent.EXTRA_TEXT);//get url on the site user will share
+		        		final String titleUrl = (String) extras.get(Intent.EXTRA_SUBJECT);//get the url´s title
 		        		mWeb.setWebViewClient(new WebViewClient() 
 		        		{
 				        	public void onPageFinished(WebView view, String url) 
@@ -42,11 +42,17 @@ public class ShareActivity extends MainActivity {
 				        		//this have to be intent
 				
 				        		//inject share pageurl into 'textarea' via javascript
-				        	    mWeb.loadUrl("javascript:(function() { " +  
-				        	                "document.getElementsByTagName('textarea')[0].innerHTML = '"+pagesUrl+" | #bookmark'; " +  
-				        	                "})()");  
+				        	    mWeb.loadUrl("javascript:(function() { " + 
+					        	    			//make more space to user-message
+					        	    			"document.getElementsByTagName('textarea')[0].style.height='110px'; "+
+					        	                //inject formate bookmark
+					        	    			"document.getElementsByTagName('textarea')[0].innerHTML = '["+titleUrl+"]("+pagesUrl+") #bookmark '; " +  
+					        	            "})()");  
 				        		if(mProgress.isShowing())
+				        		{
 				        			mProgress.dismiss();
+				        			
+				        		}
 				        	}
 				        });	
 				    }
