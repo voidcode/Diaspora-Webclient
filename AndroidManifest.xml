@@ -43,6 +43,11 @@
             android:name=".SetupInternetActivity"
             android:configChanges="orientation">
         </activity>
+        <activity
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:name=".TranslateActivity"
+            android:configChanges="orientation">
+        </activity>
         <receiver android:name=".WidgetActivity" android:label="Diaspora-Webclient">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

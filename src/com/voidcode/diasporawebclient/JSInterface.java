@@ -1,5 +1,7 @@
 package com.voidcode.diasporawebclient;
 
+import org.json.JSONObject;
+
 import android.util.Log;
 import android.webkit.WebView;
 
@@ -9,11 +11,10 @@ public class JSInterface {
 	{
 		this.mWeb=view;
 	}
-	//TODO
-	//is like the javascript function not is inject or maby see on 'response' parmeter type
-	public void GoogleV2TranslateComplete(Object response)
+	//TODO: is like the javascript function not is inject or maby see on 'response' parmeter type
+	public void GoogleV2TranslateComplete(JSONObject response)
 	{	
-		Log.i("GoogleV2TranslateComplete", "face 2: starts - response:"+response);
+		Log.i("GoogleV2TranslateComplete", "face 2: starts - response:"+response.toString());
 		
 		//Inject google translate via javascript to page-header
 	    mWeb.loadUrl("javascript:(function() { " + 

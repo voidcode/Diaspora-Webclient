@@ -5,7 +5,9 @@
     <string name="menu_home">Stream</string>
     <string name="menu_share">Share</string>
     <string name="menu_findtag">Find tag</string>
-     <string name="menu_settings">Settings</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_tips">Tips</string>
+    <string name="menu_translate">Translate</string> 
     <string name="menu_contacts">Contacts</string>
     <string name="menu_notifications">Notifications</string>
     <string name="menu_messages">Messages</string>
@@ -19,7 +21,7 @@
     <string name="settings_h1">Settings.</string>
     <string name="settings_text_currentpod">Find your pod.</string>
     <string name="settings_currentpod"></string>
-    
+  
     <string name="widget_button_share">Share on diaspora</string>   
      
      <string name="settings_button_save">Use this pod</string>
@@ -36,4 +38,10 @@
      
          
      <string name="settings_button_close">Close</string>
+     
+         
+     <string name="translate_h1">Add your Google translate api key.</string>
+     <string name="translate_button_text">Use this key</string>
+     <string name="translate_button_linkto_googleapiconsole">Google api console</string>
+     <string name="translate_howto_text">Google Translate API v2 pricing is based on usage. Translation usage is calculated in millions of characters (M), where 1 M = 106 characters. Important: Google Translate API v2 requires billing information for all accounts before you can start using the service. To sign up for billing, sign in to the Google APIs console and click the Billing tab. 1 M characters of text = $20.</string>
 </resources>

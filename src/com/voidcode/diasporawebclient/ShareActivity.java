@@ -37,8 +37,7 @@ public class ShareActivity extends MainActivity {
 		        		{
 				        	public void onPageFinished(WebView view, String url) 
 				        	{
-				        		//TODO
-				        		//user has to touch the 'textarea' before bookmarklink is paste
+				        		//TODO user has to touch the 'textarea' before bookmarklink is paste in 'textarea'
 				        		//this have to be intent
 				
 				        		//inject share pageurl into 'textarea' via javascript

@@ -71,6 +71,17 @@ public class MainActivity extends Activity {
         		startActivity(new Intent(this, SetupInternetActivity.class));
 	        }
 	    }
+		public boolean userHasEnableTranslate()
+		{
+			// load google-api-key 
+	    	SharedPreferences preferences = getSharedPreferences("translate_settings", MODE_PRIVATE);
+	    	String googleapikey = preferences.getString("googleapikey", "");
+	    	
+	    	if(!googleapikey.equals(""))//if user has added a google-api-key
+	    		return true;
+	    	else
+	    		return false;
+		}
 		public void onclick_stream(View v)
 		{
 			startDiasporaBrowser("/stream");
@@ -148,7 +159,8 @@ public class MainActivity extends Activity {
 		            }
 		        });
 		        // adds JSInterface class to webview
-		        mWeb.addJavascriptInterface(new JSInterface(mWeb), "jsinterface");
+		        if(userHasEnableTranslate())
+		        	mWeb.addJavascriptInterface(new JSInterface(mWeb), "jsinterface");
 		        
 		        mWeb.setWebViewClient(new WebViewClient() {
 		        	// load url
@@ -171,27 +183,31 @@ public class MainActivity extends Activity {
 		        	    }
 		        	}
 		        	public void onPageFinished(WebView view, String url) { // when finish loading page
-		        		//Inject google translate via javascript to all posts
-		        	    mWeb.loadUrl("javascript:(function() { " +  
-		        	    			//get variables
-		        	    			"var i=0; "+
-		        	    			"var ltrs=document.getElementsByClassName('ltr'); "+
-		        	    			"var floaters=document.getElementsByClassName('floater'); "+
-		        	    			
-		        	    			//loop: adds translate buttons to all 'ltr' tags
-		        	    			"for(i=0;i<ltrs.length;i++) "+
-		        	    			"{"+ 
-		        	    				"var btn = document.createElement('div'); "+//inti new div	
-		        	    				"btn.setAttribute('onclick','window.jsinterface.GoogleV2TranslateStart( \"btn_translate_id_'+i+'\" );'); "+//adds onclick-handler
-		        	    				"btn.setAttribute('style','margin:15px 0px 15px 0px;'); "+//adds style
-		        	    				
-		        	    				"btn.id='btn_translate_id_'+i; "+//adds id
-		        	    				"btn.innerHTML='Translate this post'; "+//adds innerHTML
-		        	    				
-		        	    				//append new button to post '.ltr'
-		        	    				"ltrs.item(i).appendChild(btn); "+ 
-		        	    			"} "+
-		        	                "})()");  
+		        		
+		        		if(userHasEnableTranslate())
+		        		{	
+			        		//Inject google translate via javascript to all posts
+			        	    mWeb.loadUrl("javascript:(function() { " +  
+			        	    			//get variables
+			        	    			"var i=0; "+
+			        	    			"var ltrs=document.getElementsByClassName('ltr'); "+
+			        	    			"var floaters=document.getElementsByClassName('floater'); "+
+			        	    			
+			        	    			//loop: adds translate buttons to all 'ltr' tags
+			        	    			"for(i=0;i<ltrs.length;i++) "+
+			        	    			"{"+ 
+			        	    				"var btn = document.createElement('div'); "+//inti new div	
+			        	    				"btn.setAttribute('onclick','window.jsinterface.GoogleV2TranslateStart( \"btn_translate_id_'+i+'\" );'); "+//adds onclick-handler
+			        	    				"btn.setAttribute('style','margin:15px 0px 15px 0px;'); "+//adds style
+			        	    				
+			        	    				"btn.id='btn_translate_id_'+i; "+//adds id
+			        	    				"btn.innerHTML='Translate this post'; "+//adds innerHTML
+			        	    				
+			        	    				//append new button to post '.ltr'
+			        	    				"ltrs.item(i).appendChild(btn); "+ 
+			        	    			"} "+
+			        	                "})()");  
+		        		 }
 		        		 if(mProgress.isShowing()) {
 		        			mProgress.dismiss();
 		        		}
@@ -227,9 +243,16 @@ public class MainActivity extends Activity {
 				    case R.id.mainmenu_share:
 				    	startDiasporaBrowser("/status_messages/new");
 				        return true;
+				    case R.id.mainmenu_translate:
+				    	this.finish();
+				    	startActivity(new Intent(this, TranslateActivity.class));
+				    	return true;
 				    case R.id.mainmenu_settings:
 				    	this.finish();
 				    	startActivity(new Intent(this, SettingsActivity.class));
+				    	return true;
+				    case R.id.mainmenu_tips:
+				    	 mWeb.loadUrl("file:///android_asset/tips.html");
 				    	return true;
 				    case R.id.mainmenu_exit:
 				    	this.finish();

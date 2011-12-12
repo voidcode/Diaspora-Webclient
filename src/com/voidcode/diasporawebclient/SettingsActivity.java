@@ -1,6 +1,5 @@
 package com.voidcode.diasporawebclient;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,9 +47,6 @@ public class SettingsActivity extends Activity {
         
         editTextCurrentpod = (EditText) findViewById(R.id.editText_currentpod);       
         lvPods = (ListView) findViewById(R.id.listView_poduptime);
-        // lvPods.setTextFilterEnabled(true);
-        // lvPods.setFilterText("");
-        lvPods.setFastScrollEnabled(true);
         
         //Add: onkeyup search , A fast find search on editTextCurrentpod, So user don´t have to scholl the podlist to finde a pod 
         editTextCurrentpod.addTextChangedListener(new TextWatcher() 
@@ -63,9 +59,8 @@ public class SettingsActivity extends Activity {
 		    }
 		    public void onTextChanged(CharSequence s, int start, int before, int count) 
 		    {
-		    	//TODO 
-		    	//try search on 'diasp.org' then listview show to or more 'diasp.org'´s
-			    //mabay this is some to do with the sixe of the 'filter_podurl_arr[]' base on 'lvPods_arr.length'
+		    	//TODO try search on 'diasp.org' then listview show to or more 'diasp.org'´s
+			    //perhaps this is some to do with the sixe of the 'filter_podurl_arr[]' base on 'lvPods_arr.length'
 		    	//or the loop mabay is OfByOne 
 		    	i=0;
 		    	 for(String podurl:lvPods_arr)
@@ -83,10 +78,8 @@ public class SettingsActivity extends Activity {
 				if(filter_podurl_arr.length >0)
 					fillListview(filter_podurl_arr); //add reslut to listview					
 			}
-		});
-        
-        //TODO
-        //need to find a way to show the podlist on inti
+		});       
+        //TODO need to find a way to show the podlist on inti
         //this fill listview with pods
         //but user can´t click on pods in listview, end in error 
         //fillListview(this.lvPods_arr);
@@ -116,31 +109,37 @@ public class SettingsActivity extends Activity {
 			}
         });
 	}
-	// Handle the Back button in WebView, to back in history.
+	// Handle the Back button
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent msg){
         if((keyCode == KeyEvent.KEYCODE_BACK))
         {
             this.finish();
+            startActivity(new Intent(this, MainActivity.class));
         	return false;
         }
         else
-        {
             return true;
-        }
     }
 	public void Onclick_SaveSettings(View v) throws IOException
 	{
 		//get userinput
-		String new_currentpod = editTextCurrentpod.getText().toString();		
-		SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);		
-		// Save the new currentpod
-        SharedPreferences.Editor editor = preferences.edit();
-		editor.putString("currentpod", new_currentpod);
-        editor.commit();
-        this.finish();
-        startActivity(new Intent(this, MainActivity.class));
-        Toast.makeText(getApplicationContext(), "Pod: "+new_currentpod, Toast.LENGTH_LONG).show();
+		String new_currentpod = editTextCurrentpod.getText().toString();
+		//if user has added a pod
+		if(!new_currentpod.equals(""))
+		{
+			// Save the new currentpod
+			SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
+			SharedPreferences.Editor editor = preferences.edit();
+			editor.putString("currentpod", new_currentpod);
+			editor.commit();
+			//goto MainActivity
+			this.finish();
+			startActivity(new Intent(this, MainActivity.class));
+			Toast.makeText(getApplicationContext(), "Pod: "+new_currentpod, Toast.LENGTH_LONG).show();
+		}
+		else
+			Toast.makeText(getApplicationContext(), "You need to choose a pod", Toast.LENGTH_SHORT).show();
 	}
 	
 	public String [] getPods() {
@@ -172,7 +171,6 @@ public class SettingsActivity extends Activity {
 			//TODO handle json buggy feed
 			e.printStackTrace();
 		}
-		
 		//Parse the JSON Data
 		try {
 			JSONObject j=new JSONObject(builder.toString());			
