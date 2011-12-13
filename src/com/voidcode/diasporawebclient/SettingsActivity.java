@@ -23,7 +23,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,9 +33,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 public class SettingsActivity extends Activity {
-	//public EditText editTextCurrentpod;
-	public ListView lvPods;
 	public static final String SETTINGS_FILENAME="settings";
+	public ListView lvPods;
 	public String lvPods_arr[] = getPods();
 	private EditText editTextCurrentpod;
 	JSONArray jsonArray;
@@ -47,61 +45,44 @@ public class SettingsActivity extends Activity {
         
         editTextCurrentpod = (EditText) findViewById(R.id.editText_currentpod);       
         lvPods = (ListView) findViewById(R.id.listView_poduptime);
+              
+        //show the currentpod to user
+        SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
+        editTextCurrentpod.setText(preferences.getString("currentpod", "You need to choose a pod"));
+        editTextCurrentpod.selectAll();
         
-        //Add: onkeyup search , A fast find search on editTextCurrentpod, So user don´t have to scholl the podlist to finde a pod 
+        //fill listview with pods form http://podupti.me
+        fillListview(this.lvPods_arr);
+        
+        //podsearch, A fast find search on editTextCurrentpod, So user don´t have to scholl the podlist to finde a pod 
         editTextCurrentpod.addTextChangedListener(new TextWatcher() 
         { 
-        	int i=0;
-        	String filter_podurl_arr[] = new String[lvPods_arr.length];
+        	List<String> filter_podurl_list = null;
 		    public void beforeTextChanged(CharSequence s, int start, int count, int after) 
 		    {
-		    	editTextCurrentpod.requestFocus();
 		    }
 		    public void onTextChanged(CharSequence s, int start, int before, int count) 
 		    {
-		    	//TODO try search on 'diasp.org' then listview show to or more 'diasp.org'´s
-			    //perhaps this is some to do with the sixe of the 'filter_podurl_arr[]' base on 'lvPods_arr.length'
-		    	//or the loop mabay is OfByOne 
-		    	i=0;
-		    	 for(String podurl:lvPods_arr)
-		    	 {
+		    	filter_podurl_list=new ArrayList<String>();
+		    	for(String podurl:lvPods_arr)
+		    	{
 			    	if(podurl.startsWith(s.toString()))
 			    	{
-			    		Log.i("compareTo ["+i+"]", "podurl="+podurl);
-			    		filter_podurl_arr[i] = podurl;
-			    		i++;
+			    		filter_podurl_list.add(podurl);
 			    	}
 		    	 }
 		    }
 			public void afterTextChanged(Editable s) 
 			{
-				if(filter_podurl_arr.length >0)
-					fillListview(filter_podurl_arr); //add reslut to listview					
+				///add reslut to listview
+				if(!filter_podurl_list.equals(null))
+					fillListview(filter_podurl_list.toArray(new String[filter_podurl_list.size()]));
 			}
-		});       
-        //TODO need to find a way to show the podlist on inti
-        //this fill listview with pods
-        //but user can´t click on pods in listview, end in error 
-        //fillListview(this.lvPods_arr);
-        
-        // SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
-        // Toast.makeText(getApplicationContext(), preferences.getString("currentpod", needchoosepod), Toast.LENGTH_SHORT).show();
-        //Inti fill listview with pods
-        
-        // if(preferences.getString("currentpod", needchoosepod).equals(needchoosepod))
-        //	fillListview(this.lvPods_arr);
+		});
     }
-	//Screen orientation crashes app fix
-	//http://jamesgiang.wordpress.com/2010/06/05/screen-orientation-crashes-my-app/
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) 
-	{
-		super.onConfigurationChanged(newConfig);
-	} 
 	public void fillListview(String _lvPods_arr[])
 	{
-        
-        lvPods.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,_lvPods_arr));
+        lvPods.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, _lvPods_arr));
         lvPods.setOnItemClickListener(new OnItemClickListener(){
 			public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 				//onclick put select pod to editTextCurrentpod 	
@@ -109,6 +90,13 @@ public class SettingsActivity extends Activity {
 			}
         });
 	}
+	//Screen orientation crashes app fix
+	//http://jamesgiang.wordpress.com/2010/06/05/screen-orientation-crashes-my-app/
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) 
+	{
+		super.onConfigurationChanged(newConfig);
+	} 
 	// Handle the Back button
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent msg){
@@ -136,13 +124,15 @@ public class SettingsActivity extends Activity {
 			//goto MainActivity
 			this.finish();
 			startActivity(new Intent(this, MainActivity.class));
-			Toast.makeText(getApplicationContext(), "Pod: "+new_currentpod, Toast.LENGTH_LONG).show();
 		}
 		else
 			Toast.makeText(getApplicationContext(), "You need to choose a pod", Toast.LENGTH_SHORT).show();
 	}
-	
-	public String [] getPods() {
+	//simple json parsing, to retrieve list of pods from podupti.me
+	//https://github.com/voidcode/Diaspora-Webclient/pull/4
+	//by: https://github.com/vipulnsward
+	public String [] getPods()  
+	{
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
 		List<String> list = null;
