@@ -13,22 +13,35 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:src="@drawable/topmenu" />
+
+		    <TextView
+		        android:id="@+id/textView3"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/translate_chooselanguage_h1"
+		        android:textAppearance="?android:attr/textAppearanceMedium" />
 	</LinearLayout>
-
+
+	<Spinner
+	    android:id="@+id/translate_spinner_language"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" />
 	<TextView
 	    android:id="@+id/textView1"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:text="@string/translate_h1"
+	    android:text="@string/translate_googlekey_h1"
 	    android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
 	<EditText
-	    android:id="@+id/editText_translate"
+	    android:id="@+id/editText_googleapikey"
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content" >
+	    android:layout_height="wrap_content"
+	    android:text="" >
 
 	    <requestFocus />
 	</EditText>
+
 	<Button
 	    android:id="@+id/translate_button_save"
 	    android:layout_width="match_parent"
@@ -41,7 +54,13 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:text="@string/translate_howto_text"
-	    android:textAppearance="?android:attr/textAppearanceSmall" />
+	    android:textAppearance="?android:attr/textAppearanceSmall" />
+	<Button
+	    android:id="@+id/button2"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:onClick="onlick_howto_obtain_googletranslatekey"
+	    android:text="@string/translate_button_howto_obtain_googletranslatekey" />
 
 	<Button
 	    android:id="@+id/button1"

@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	public static final String SETTINGS_FILENAME="settings";
+	public static final String TRANSLATE_FILENAME="translate_settings";
 	public String main_domain;
 	public WebView mWeb;
 	public ProgressDialog mProgress;
@@ -54,7 +55,6 @@ public class MainActivity extends Activity {
 	        	//then open SettingsActivity
 	        	if(this.main_domain.equals("")) 
 	        	{
-	        		//this.finish();
 	        		startActivity(new Intent(this, SettingsActivity.class));	
 	        	}
 	        	else
@@ -71,12 +71,12 @@ public class MainActivity extends Activity {
         		startActivity(new Intent(this, SetupInternetActivity.class));
 	        }
 	    }
+		//if user has added a google-api-key, returns 'true' else 'false'
 		public boolean userHasEnableTranslate()
 		{
 			// load google-api-key 
 	    	SharedPreferences preferences = getSharedPreferences("translate_settings", MODE_PRIVATE);
 	    	String googleapikey = preferences.getString("googleapikey", "");
-	    	
 	    	if(!googleapikey.equals(""))//if user has added a google-api-key
 	    		return true;
 	    	else
@@ -132,12 +132,19 @@ public class MainActivity extends Activity {
 			super.onConfigurationChanged(newConfig);
 		} 
 		public void startDiasporaBrowser(String uri)
-		 {
+		{
 			 	mWeb = (WebView) findViewById(R.id.webView_main);
 		        // set Javascript
 		        WebSettings settings = mWeb.getSettings();
 		        settings.setJavaScriptEnabled(true);
-		       
+		        
+		        //set cache size to 8mb by default.
+		        //settings.setAppCacheMaxSize(1024*1024*8);
+		        settings.setDomStorageEnabled(true);
+		        settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
+		        settings.setAllowFileAccess(true);
+		        settings.setAppCacheEnabled(true);
+		        
 		        //settings.setBuiltInZoomControls(true);
 		        
 		        //get current uri an format it into a title for the AlertDialog
@@ -145,25 +152,25 @@ public class MainActivity extends Activity {
 		        if(uri.equals("/status_messages/new")) //this is just a workaround
 		        {
 		        	loadingmsg = "Share it";
-		        }
-		        
+		        } 
 		        //the init state of progress dialog
 		        mProgress = ProgressDialog.show(this, loadingmsg, "Please wait a moment...");
-		        
 		        //fix to bug 2: cannot reshare
 		        //see: https://github.com/voidcode/Diaspora-Webclient/issues/2
 		        mWeb.setWebChromeClient(new WebChromeClient() {
 		        	public boolean onJsAlert(WebView view, String url, String message, JsResult result)
 		            {            
-		        		return true;
+		        		 return super.onJsAlert(view, url, message, result);
 		            }
 		        });
 		        // adds JSInterface class to webview
 		        if(userHasEnableTranslate())
-		        	mWeb.addJavascriptInterface(new JSInterface(mWeb), "jsinterface");
+		        	mWeb.addJavascriptInterface(new JSInterface(), "jsinterface");
 		        
 		        mWeb.setWebViewClient(new WebViewClient() {
-		        	// load url
+		        	private String googleapikey;
+					private String defaultlanguage;
+					// load url
 		        	public boolean shouldOverrideUrlLoading(WebView view, String url) 
 		        	{
 		        		//this see if the user is trying to open a internel or externel link
@@ -183,34 +190,33 @@ public class MainActivity extends Activity {
 		        	    }
 		        	}
 		        	public void onPageFinished(WebView view, String url) { // when finish loading page
-		        		
-		        		if(userHasEnableTranslate())
+		        		if(mProgress.isShowing()) {
+		        			mProgress.dismiss();
+		        		}
+		        		if(userHasEnableTranslate())//adds translate link to all post
 		        		{	
-			        		//Inject google translate via javascript to all posts
+		        			SharedPreferences preferences = getSharedPreferences(TRANSLATE_FILENAME, MODE_PRIVATE);
+		        	    	this.googleapikey = preferences.getString("googleapikey", "");
+		        	    	this.defaultlanguage = preferences.getString("defaultlanguage", "en");//default-language=english
+			        		//Inject google translate link via javascript into all posts
 			        	    mWeb.loadUrl("javascript:(function() { " +  
-			        	    			//get variables
-			        	    			"var i=0; "+
+			        	    			//get variables			        	    			"var i=0; "+
 			        	    			"var ltrs=document.getElementsByClassName('ltr'); "+
-			        	    			"var floaters=document.getElementsByClassName('floater'); "+
-			        	    			
 			        	    			//loop: adds translate buttons to all 'ltr' tags
 			        	    			"for(i=0;i<ltrs.length;i++) "+
 			        	    			"{"+ 
-			        	    				"var btn = document.createElement('div'); "+//inti new div	
-			        	    				"btn.setAttribute('onclick','window.jsinterface.GoogleV2TranslateStart( \"btn_translate_id_'+i+'\" );'); "+//adds onclick-handler
+			        	    				"var btn = document.createElement('div'); "+//makes new div
+			        	    				"var selectpost = encodeURIComponent(ltrs.item(i).innerHTML); "+//retrive select post
+			        	    				//"var selectpost = 'google is a search '; "+
+			        	    				"btn.setAttribute('onclick','alert(window.jsinterface.GoogleTranslate( \""+main_domain+"\",  \""+this.googleapikey+"\", \""+this.defaultlanguage+"\", \"'+selectpost+'\" ));'); "+//adds onclick-handler
 			        	    				"btn.setAttribute('style','margin:15px 0px 15px 0px;'); "+//adds style
-			        	    				
 			        	    				"btn.id='btn_translate_id_'+i; "+//adds id
-			        	    				"btn.innerHTML='Translate this post'; "+//adds innerHTML
-			        	    				
+			        	    				"btn.innerHTML='Translate this post'; "+//title on link.
 			        	    				//append new button to post '.ltr'
 			        	    				"ltrs.item(i).appendChild(btn); "+ 
 			        	    			"} "+
 			        	                "})()");  
 		        		 }
-		        		 if(mProgress.isShowing()) {
-		        			mProgress.dismiss();
-		        		}
 		        	}
 		        });      
 		        // open pages in webview
@@ -251,14 +257,17 @@ public class MainActivity extends Activity {
 				    	this.finish();
 				    	startActivity(new Intent(this, SettingsActivity.class));
 				    	return true;
-				    case R.id.mainmenu_tips:
+					case R.id.mainmenu_tips:
 				    	 mWeb.loadUrl("file:///android_asset/tips.html");
 				    	return true;
+				    case R.id.mainmenu_donation:
+				    	 mWeb.loadUrl("file:///android_asset/donation.html");
+				    	return true;	
 				    case R.id.mainmenu_exit:
 				    	this.finish();
-						return true;			
+						return true;	
 				    default:
 				        return super.onOptionsItemSelected(item);
 			    }
-		    }
+		   }
 }

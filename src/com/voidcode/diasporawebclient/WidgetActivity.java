@@ -32,8 +32,7 @@ public class WidgetActivity extends AppWidgetProvider {
             // to the button
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
             views.setOnClickPendingIntent(R.id.widget_button_stream, main_pendingIntent);
-            views.setOnClickPendingIntent(R.id.widget_button_share, share_pendingIntent);
-            
+            views.setOnClickPendingIntent(R.id.widget_button_share, share_pendingIntent);          
             
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
