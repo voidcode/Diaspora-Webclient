@@ -1,5 +1,6 @@
 package com.voidcode.diasporawebclient;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
@@ -12,10 +13,7 @@ public class ShareActivity extends MainActivity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        NetworkInfo m3G = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        if (mWifi.isConnected() || m3G.isConnected()) 
+        if (isNetworkAvailable()) 
         {
         	if(!this.main_domain.equals(""))
         	{	
@@ -57,6 +55,11 @@ public class ShareActivity extends MainActivity {
 				    }
         		}
         	}
+        	else
+        	{
+        		this.finish();
+        		startActivity(new Intent(this, SetupInternetActivity.class));
+        	}
         }
     }
 	//Screen orientation crashes app fix
@@ -66,4 +69,17 @@ public class ShareActivity extends MainActivity {
 	{
 		super.onConfigurationChanged(newConfig);
 	} 
+	private boolean isNetworkAvailable()
+	{
+		ConnectivityManager connec = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo mobileInfo = connec.getNetworkInfo(0);
+		NetworkInfo wifiInfo = connec.getNetworkInfo(1);
+		NetworkInfo wimaxInfo = connec.getNetworkInfo(6);
+		if (wimaxInfo!=null) {
+			return mobileInfo.isConnected() || wifiInfo.isConnected()|| wimaxInfo.isConnected();
+		}
+		else {
+			return mobileInfo.isConnected() || wifiInfo.isConnected();
+		}
+	}
 }

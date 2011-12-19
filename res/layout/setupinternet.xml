@@ -39,7 +39,12 @@
             android:layout_height="wrap_content"
             android:text="@string/setupinternet_text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
+		<Button
+            android:onClick="onclick_button_wireless_settings"
+            android:id="@+id/setupinternet_button_wirelesssettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setupinternet_button_wirelesssettings" />
         <Button
             android:onClick="onclick_button_close"
             android:id="@+id/settings_button_close"

@@ -28,7 +28,8 @@
      <string name="settings_button_save">Use this pod</string>
      
      <string name="setupinternet_h1">Setup internet</string>
-     <string name="setupinternet_text">You need a Wifi or 3G connection!</string>
+     <string name="setupinternet_text">This app require a internet connection!</string>
+     <string name="setupinternet_button_wirelesssettings">Wireless settings</string>
      <string name="setupinternet_button">Close</string>
      <string name="findtag_h1">Findtag</string>
      <string name="findtag_p">Type a word and see what the stream contains</string>
@@ -38,7 +39,7 @@
      <string name="findtag" >findtag</string>
      
          
-     <string name="settings_button_close">Close</string>
+     <string name="settings_button_close">Ok</string>
      
      <string name="translate_chooselanguage_h1">Choose translate to language.</string>
      <string name="translate_googlekey_h1">Add your Google translate api key.</string>

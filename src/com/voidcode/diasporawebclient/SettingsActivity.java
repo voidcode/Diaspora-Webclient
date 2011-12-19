@@ -17,9 +17,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,45 +43,52 @@ public class SettingsActivity extends Activity {
 	JSONArray jsonArray;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings);
-        
-        editTextCurrentpod = (EditText) findViewById(R.id.editText_currentpod);       
-        lvPods = (ListView) findViewById(R.id.listView_poduptime);
-              
-        //show the currentpod to user
-        SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
-        editTextCurrentpod.setText(preferences.getString("currentpod", "You need to choose a pod"));
-        editTextCurrentpod.selectAll();
-        
-        //fill listview with pods form http://podupti.me
-        fillListview(this.lvPods_arr);
-        
-        //podsearch, A fast find search on editTextCurrentpod, So user don´t have to scholl the podlist to finde a pod 
-        editTextCurrentpod.addTextChangedListener(new TextWatcher() 
+        if(isNetworkAvailable())
         { 
-        	List<String> filter_podurl_list = null;
-		    public void beforeTextChanged(CharSequence s, int start, int count, int after) 
-		    {
-		    }
-		    public void onTextChanged(CharSequence s, int start, int before, int count) 
-		    {
-		    	filter_podurl_list=new ArrayList<String>();
-		    	for(String podurl:lvPods_arr)
-		    	{
-			    	if(podurl.startsWith(s.toString()))
+        	super.onCreate(savedInstanceState);
+        	setContentView(R.layout.settings);
+	        editTextCurrentpod = (EditText) findViewById(R.id.editText_currentpod);       
+	        lvPods = (ListView) findViewById(R.id.listView_poduptime);
+	              
+	        //show the currentpod to user
+	        SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
+	        editTextCurrentpod.setText(preferences.getString("currentpod", "You need to choose a pod"));
+	        editTextCurrentpod.selectAll();
+	        
+	        //fill listview with pods form http://podupti.me
+	        fillListview(this.lvPods_arr);
+	        
+	        //podsearch, A fast find search on editTextCurrentpod, So user don´t have to scholl the podlist to finde a pod 
+	        editTextCurrentpod.addTextChangedListener(new TextWatcher() 
+	        { 
+	        	List<String> filter_podurl_list = null;
+			    public void beforeTextChanged(CharSequence s, int start, int count, int after) 
+			    {
+			    }
+			    public void onTextChanged(CharSequence s, int start, int before, int count) 
+			    {
+			    	filter_podurl_list=new ArrayList<String>();
+			    	for(String podurl:lvPods_arr)
 			    	{
-			    		filter_podurl_list.add(podurl);
-			    	}
-		    	 }
-		    }
-			public void afterTextChanged(Editable s) 
-			{
-				///add reslut to listview
-				if(!filter_podurl_list.equals(null))
-					fillListview(filter_podurl_list.toArray(new String[filter_podurl_list.size()]));
-			}
-		});
+				    	if(podurl.startsWith(s.toString()))
+				    	{
+				    		filter_podurl_list.add(podurl);
+				    	}
+			    	 }
+			    }
+				public void afterTextChanged(Editable s) 
+				{
+					///add reslut to listview
+					if(!filter_podurl_list.equals(null))
+						fillListview(filter_podurl_list.toArray(new String[filter_podurl_list.size()]));
+				}
+			});
+        }
+        else
+        {
+        	this.finish();
+    		startActivity(new Intent(this, SetupInternetActivity.class));
+        }
     }
 	public void fillListview(String _lvPods_arr[])
 	{
@@ -180,5 +190,18 @@ public class SettingsActivity extends Activity {
 			e.printStackTrace();
 		}	
 		return list.toArray(new String[list.size()]);
+	}
+	private boolean isNetworkAvailable()
+	{
+		ConnectivityManager connec = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo mobileInfo = connec.getNetworkInfo(0);
+		NetworkInfo wifiInfo = connec.getNetworkInfo(1);
+		NetworkInfo wimaxInfo = connec.getNetworkInfo(6);
+		if (wimaxInfo!=null) {
+			return mobileInfo.isConnected() || wifiInfo.isConnected()|| wimaxInfo.isConnected();
+		}
+		else {
+			return mobileInfo.isConnected() || wifiInfo.isConnected();
+		}
 	}
 }

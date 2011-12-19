@@ -8,6 +8,7 @@ import com.voidcode.diasporawebclient.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,10 +40,7 @@ public class MainActivity extends Activity {
 		@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	        ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-	        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-	        NetworkInfo m3G = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-	        if (mWifi.isConnected() || m3G.isConnected()) 
+	        if (isNetworkAvailable()) 
 	        {
 	        	// set the home screen
 	        	setContentView(R.layout.main);
@@ -66,7 +64,7 @@ public class MainActivity extends Activity {
 	        }
 	        else
 	        {
-	        	// if user don´t have internet/ Wifi or 3G
+	        	// if user don´t have internet
 	        	this.finish();
         		startActivity(new Intent(this, SetupInternetActivity.class));
 	        }
@@ -269,5 +267,18 @@ public class MainActivity extends Activity {
 				    default:
 				        return super.onOptionsItemSelected(item);
 			    }
+		   }
+		   private boolean isNetworkAvailable()
+		   {
+		    	ConnectivityManager connec = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		    	NetworkInfo mobileInfo = connec.getNetworkInfo(0);
+		    	NetworkInfo wifiInfo = connec.getNetworkInfo(1);
+		    	NetworkInfo wimaxInfo = connec.getNetworkInfo(6);
+		    	if (wimaxInfo!=null) {
+		    		return mobileInfo.isConnected() || wifiInfo.isConnected()|| wimaxInfo.isConnected();
+		    	}
+		    	else {
+		    		return mobileInfo.isConnected() || wifiInfo.isConnected();
+		    	}
 		   }
 }

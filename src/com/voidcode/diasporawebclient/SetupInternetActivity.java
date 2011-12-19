@@ -1,8 +1,13 @@
 package com.voidcode.diasporawebclient;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 
 public class SetupInternetActivity extends Activity {
@@ -11,6 +16,10 @@ public class SetupInternetActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setupinternet);
     }
+	public void onclick_button_wireless_settings(View v)
+	{
+	    startActivity( new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+	}
 	public void onclick_button_close(View v)
 	{
 	    this.finish();
@@ -21,5 +30,5 @@ public class SetupInternetActivity extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) 
 	{
 		super.onConfigurationChanged(newConfig);
-	} 
+	}
 }
