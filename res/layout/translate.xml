@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical" >
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_width="match_parent"
+	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
 	    android:background="@drawable/topmenu_repeat" >
@@ -16,7 +16,7 @@
 
 		    <TextView
 		        android:id="@+id/textView3"
-		        android:layout_width="match_parent"
+		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:text="@string/translate_chooselanguage_h1"
 		        android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -24,18 +24,18 @@
 
 	<Spinner
 	    android:id="@+id/translate_spinner_language"
-	    android:layout_width="match_parent"
+	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content" />
 	<TextView
 	    android:id="@+id/textView1"
-	    android:layout_width="match_parent"
+	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:text="@string/translate_googlekey_h1"
 	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
 	<EditText
 	    android:id="@+id/editText_googleapikey"
-	    android:layout_width="match_parent"
+	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:text="" >
 
@@ -44,7 +44,7 @@
 
 	<Button
 	    android:id="@+id/translate_button_save"
-	    android:layout_width="match_parent"
+	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:text="@string/translate_button_text"
 	    android:onClick="onlick_save_key" />
@@ -57,14 +57,14 @@
 	    android:textAppearance="?android:attr/textAppearanceSmall" />
 	<Button
 	    android:id="@+id/button2"
-	    android:layout_width="match_parent"
+	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:onClick="onlick_howto_obtain_googletranslatekey"
 	    android:text="@string/translate_button_howto_obtain_googletranslatekey" />
 
 	<Button
 	    android:id="@+id/button1"
-	    android:layout_width="match_parent"
+	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:text="@string/translate_button_linkto_googleapiconsole"
 	    android:onClick="onlick_goto_googleapiconsole" />

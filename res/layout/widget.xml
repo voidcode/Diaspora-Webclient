@@ -8,21 +8,21 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
             
         <ImageButton
             android:id="@+id/widget_button_stream"
             android:background="@null"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:src="@drawable/ic_launcher"
              />
 
         <Button
             android:id="@+id/widget_button_share"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:background="@null"
             android:minHeight="15dip"
             android:textColor="@android:color/white"
