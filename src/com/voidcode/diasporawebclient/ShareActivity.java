@@ -23,36 +23,38 @@ public class ShareActivity extends MainActivity {
         		//when you are on eg your default browser and choose 'share with', 
         		//and then choose 'Diaspora-Webclient' it goto here 
         		Intent intent = getIntent();
-        		Bundle extras = intent.getExtras();
+        		final Bundle extras = intent.getExtras();
         		String action = intent.getAction();
+        		final String extraText = (String) extras.get(Intent.EXTRA_TEXT);//get url on the site user will share
+        		final String extraSubject = (String) extras.get(Intent.EXTRA_SUBJECT);//get the url´s title
+        		
         		if (Intent.ACTION_SEND.equals(action)) //if user has 
         		{  
-        			if (extras.containsKey(Intent.EXTRA_TEXT) && extras.containsKey(Intent.EXTRA_SUBJECT)) 
-        			{
-		        		final String pagesUrl = (String) extras.get(Intent.EXTRA_TEXT);//get url on the site user will share
-		        		final String titleUrl = (String) extras.get(Intent.EXTRA_SUBJECT);//get the url´s title
+        			
 		        		mWeb.setWebViewClient(new WebViewClient() 
 		        		{
 				        	public void onPageFinished(WebView view, String url) 
 				        	{
 				        		//TODO user has to touch the 'textarea' before bookmarklink is paste in 'textarea'
 				        		//this have to be intent
-				
-				        		//inject share pageurl into 'textarea' via javascript
-				        	    mWeb.loadUrl("javascript:(function() { " + 
-					        	    			//make more space to user-message
-					        	    			"document.getElementsByTagName('textarea')[0].style.height='110px'; "+
-					        	                //inject formate bookmark
-					        	    			"document.getElementsByTagName('textarea')[0].innerHTML = '["+titleUrl+"]("+pagesUrl+") #bookmark '; " +  
-					        	            "})()");  
-				        		if(mProgress.isShowing())
-				        		{
-				        			mProgress.dismiss();
-				        			
-				        		}
+							   if(extras.containsKey(Intent.EXTRA_TEXT) && extras.containsKey(Intent.EXTRA_SUBJECT)) 
+							   {
+					        		//inject share pageurl into 'textarea' via javascript
+						        	mWeb.loadUrl("javascript:(function() { " + 
+							        	    			//make more space to user-message
+							        	    			"document.getElementsByTagName('textarea')[0].style.height='110px'; "+
+							        	                //inject formate bookmark
+							        	    			"document.getElementsByTagName('textarea')[0].innerHTML = '["+extraSubject+"]("+extraText+") #bookmark '; " +  
+							        	            "})()"); 
+							   }
+					        		if(mProgress.isShowing())
+					        		{
+					        			mProgress.dismiss();
+					        			
+					        		}
+
 				        	}
-				        });	
-				    }
+				        });
         		}
         	}
         	else
