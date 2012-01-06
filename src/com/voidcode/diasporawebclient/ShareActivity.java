@@ -25,20 +25,25 @@ public class ShareActivity extends MainActivity {
         		Intent intent = getIntent();
         		final Bundle extras = intent.getExtras();
         		String action = intent.getAction();
-        		final String extraText = (String) extras.get(Intent.EXTRA_TEXT);//get url on the site user will share
-        		final String extraSubject = (String) extras.get(Intent.EXTRA_SUBJECT);//get the url´s title
-        		
+
         		if (Intent.ACTION_SEND.equals(action)) //if user has 
         		{  
-        			
 		        		mWeb.setWebViewClient(new WebViewClient() 
 		        		{
 				        	public void onPageFinished(WebView view, String url) 
 				        	{
+				        		if(mProgress.isShowing())
+				        		{
+				        			mProgress.dismiss();
+				        			
+				        		}
 				        		//TODO user has to touch the 'textarea' before bookmarklink is paste in 'textarea'
 				        		//this have to be intent
-							   if(extras.containsKey(Intent.EXTRA_TEXT) && extras.containsKey(Intent.EXTRA_SUBJECT)) 
-							   {
+							    if(extras.containsKey(Intent.EXTRA_TEXT) && extras.containsKey(Intent.EXTRA_SUBJECT)) 
+							    {
+					        		final String extraText = (String) extras.get(Intent.EXTRA_TEXT);//get url on the site user will share
+					        		final String extraSubject = (String) extras.get(Intent.EXTRA_SUBJECT);//get the url´s title
+					        		
 					        		//inject share pageurl into 'textarea' via javascript
 						        	mWeb.loadUrl("javascript:(function() { " + 
 							        	    			//make more space to user-message
@@ -46,13 +51,7 @@ public class ShareActivity extends MainActivity {
 							        	                //inject formate bookmark
 							        	    			"document.getElementsByTagName('textarea')[0].innerHTML = '["+extraSubject+"]("+extraText+") #bookmark '; " +  
 							        	            "})()"); 
-							   }
-					        		if(mProgress.isShowing())
-					        		{
-					        			mProgress.dismiss();
-					        			
-					        		}
-
+							    }
 				        	}
 				        });
         		}

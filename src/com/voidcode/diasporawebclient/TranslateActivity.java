@@ -22,6 +22,7 @@ public class TranslateActivity extends Activity {
 	private String googleapikey="";
 	private EditText editTextGoogleApiKey;
 	private Spinner spinnerLanguage;
+	private int current_select_language_in_spinner;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +30,11 @@ public class TranslateActivity extends Activity {
         
         // load google-translate-api-key
     	SharedPreferences preferences = getSharedPreferences(TRANSLATE_FILENAME, MODE_PRIVATE);
-    	this.googleapikey = preferences.getString("googleapikey", "");
-    	
+    	this.googleapikey = preferences.getString("googleapikey", "microsoft-translator");
+    	this.current_select_language_in_spinner = preferences.getInt("current_select_language_in_spinner", 13);//13 is default for engelsk(in Language class)
     	editTextGoogleApiKey = (EditText) findViewById(R.id.editText_googleapikey);
     	
+    	//fill language spinner with support languages
     	fillLanguageSpinner();
     	//if has set the google-api-key
     	//then view key in edittext
@@ -41,13 +43,16 @@ public class TranslateActivity extends Activity {
     }
 	public void fillLanguageSpinner()
 	{
+		
 		spinnerLanguage = (Spinner) findViewById(R.id.translate_spinner_language);
 		spinnerLanguage.setAdapter(new ArrayAdapter<Language>(this, android.R.layout.simple_spinner_item, Language.values()));
+		spinnerLanguage.setSelection(this.current_select_language_in_spinner);//
 		spinnerLanguage.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
 				// Set default-languages.
 				SharedPreferences preferences = getSharedPreferences(TRANSLATE_FILENAME, MODE_PRIVATE);		
 			    SharedPreferences.Editor editor = preferences.edit();
+			    editor.putInt("current_select_language_in_spinner", pos);
 				editor.putString("defaultlanguage", Language.fromString(parent.getItemAtPosition(pos).toString()).shortCode());
 			    editor.commit();
 			}
@@ -62,7 +67,7 @@ public class TranslateActivity extends Activity {
 		// Save the new google-api-key
 	    SharedPreferences.Editor editor = preferences.edit();
 		editor.putString("googleapikey", new_googlekey);
-		Log.i("TranslateActivity", "onlick_save_key. Key="+new_googlekey);
+		//Log.i("TranslateActivity", "onlick_save_key. Key="+new_googlekey);
 	    editor.commit();
 	    this.finish();
 	    startActivity(new Intent(this, MainActivity.class));

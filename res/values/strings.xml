@@ -41,10 +41,10 @@
          
      <string name="settings_button_close">Ok</string>
      
-     <string name="translate_chooselanguage_h1">Choose translate to language.</string>
-     <string name="translate_googlekey_h1">Add your Google translate api key.</string>
+     <string name="translate_chooselanguage_h1">Translate post to this language.</string>
+     <string name="translate_googlekey_h1">Add your translate api-key here.</string>
      <string name="translate_button_text">Use this key</string>
      <string name="translate_button_linkto_googleapiconsole">Google api console</string>
-     <string name="translate_howto_text">Google Translate API v2 pricing is based on usage. Translation usage is calculated in millions of characters (M), where 1 M = 10^6 characters. Important: Google Translate API v2 requires billing information for all accounts before you can start using the service. To sign up for billing, sign in to the Google APIs console and click the Billing tab. 1 M characters of text = $20.</string>
+     <string name="translate_howto_text">You can use Microsoft-translator for free, just type microsoft-translator as your api-key. You can use Google Translate API v2, this is based on usage(payment). Translation usage is calculated in millions of characters (M), where 1 M = 10^6 characters. Important: Google Translate API v2 requires billing information for all accounts before you can start using the service. To sign up for billing, sign in to the Google APIs console and click the Billing tab. 1 M characters of text = $20.</string>
      <string name="translate_button_howto_obtain_googletranslatekey">See how you obtain the Google Translate Key</string>
 </resources>

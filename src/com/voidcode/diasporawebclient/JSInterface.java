@@ -2,16 +2,14 @@ package com.voidcode.diasporawebclient;
 
 import java.net.URLDecoder;
 
-import com.google.api.GoogleAPI;
-import com.google.api.GoogleAPIException;
-import com.google.api.translate.Language;
-import com.google.api.translate.Translate;
+import android.util.Log;
 
 public class JSInterface {
+	private String translatePost;
 	public JSInterface()
 	{
 	}
-	public String GoogleTranslate(String main_domain, String googleapikey, String defaultlanguage, String text) throws GoogleAPIException
+	public String Translate(String main_domain, String googleapikey, String defaultlanguage, String text) throws Exception
 	{ 
 		String decodetext = URLDecoder.decode(text);
 		String rawtext = decodetext.replaceAll("\\<.*?\\>", "");//remove all htmltags
@@ -20,20 +18,32 @@ public class JSInterface {
 		rawtext = rawtext.replaceAll("#", "HEX23");//format all #tags so google-translate don´t translate the #tag
 		rawtext = rawtext.trim();//remove end-spaces 	
 		// Set the HTTP referrer to your website address.
-		GoogleAPI.setHttpReferrer(main_domain);
-		// Set the Google Translate API key
-		// See: http://code.google.com/apis/language/translate/v2/getting_started.html
-		GoogleAPI.setKey(googleapikey);//set google-api-key
+			
 		try
 		{
-		   	String translatePost = Translate.DEFAULT.execute(rawtext, Language.AUTO_DETECT, Language.fromString(defaultlanguage));
-		   	translatePost=translatePost.replaceAll("HEX23", "#");//reformat all #tags
-		   	return translatePost;
+			if(googleapikey.toLowerCase().equals("microsoft-translator"))//use MS-api
+			{
+				com.memetix.mst.MicrosoftTranslatorAPI.setHttpReferrer(main_domain);
+				com.memetix.mst.MicrosoftTranslatorAPI.setKey("4DD273288D3B3C215B1A50BABC39C00F18155C2D");//set ms-api-key
+				translatePost="";
+				translatePost = com.memetix.mst.translate.Translate.execute(rawtext, com.memetix.mst.language.Language.AUTO_DETECT, com.memetix.mst.language.Language.fromString(defaultlanguage));
+				translatePost=translatePost.replaceAll("HEX23", "#");//reformat all #tags
+			   	return translatePost+"\n\nTranslate by Microsoft.";		
+			}
+			else //use Google-api
+			{
+				// See: http://code.google.com/apis/language/translate/v2/getting_started.html
+				com.google.api.GoogleAPI.setHttpReferrer(main_domain);// Set the Google Translate API key
+				com.google.api.GoogleAPI.setKey(googleapikey);//set google-api-key
+				translatePost="";
+				translatePost = com.google.api.translate.Translate.DEFAULT.execute(rawtext, com.google.api.translate.Language.AUTO_DETECT, com.google.api.translate.Language.fromString(defaultlanguage));
+				translatePost=translatePost.replaceAll("HEX23", "#");//reformat all #tags
+			   	return translatePost+"\n\nTranslate by Google.";
+			}
 		}
-		catch (GoogleAPIException e)
+		catch (Exception e)
 		{
-		    	//Log.i("GoogleAPIException", e.getMessage());
-		    	return "Sorry can´t translation this.";
+		    	return "ERROR: Sorry can´t translation this. Maybe Google-translator can do this!";
 		}
 	}
 }

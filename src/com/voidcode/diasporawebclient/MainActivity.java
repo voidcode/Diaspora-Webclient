@@ -74,8 +74,10 @@ public class MainActivity extends Activity {
 		{
 			// load google-api-key 
 	    	SharedPreferences preferences = getSharedPreferences("translate_settings", MODE_PRIVATE);
-	    	String googleapikey = preferences.getString("googleapikey", "");
+	    	String googleapikey = preferences.getString("googleapikey", "microsoft-translator");
 	    	if(!googleapikey.equals(""))//if user has added a google-api-key
+	    		return true;
+	    	else if(googleapikey.toLowerCase().equals("microsoft-translator"))
 	    		return true;
 	    	else
 	    		return false;
@@ -137,11 +139,11 @@ public class MainActivity extends Activity {
 		        settings.setJavaScriptEnabled(true);
 		        
 		        //set cache size to 8mb by default.
-		        //settings.setAppCacheMaxSize(1024*1024*8);
-		        //settings.setDomStorageEnabled(true);
-		        //settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
-		        //settings.setAllowFileAccess(true);
-		        //settings.setAppCacheEnabled(true);
+		        settings.setAppCacheMaxSize(1024*1024*8);
+		        settings.setDomStorageEnabled(true);
+		        settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
+		        settings.setAllowFileAccess(true);
+		        settings.setAppCacheEnabled(true);
 		        
 		        //settings.setBuiltInZoomControls(true);
 		        
@@ -194,7 +196,7 @@ public class MainActivity extends Activity {
 		        		if(userHasEnableTranslate())//adds translate link to all post
 		        		{	
 		        			SharedPreferences preferences = getSharedPreferences(TRANSLATE_FILENAME, MODE_PRIVATE);
-		        	    	this.googleapikey = preferences.getString("googleapikey", "");
+		        	    	this.googleapikey = preferences.getString("googleapikey", "microsoft-translator");
 		        	    	this.defaultlanguage = preferences.getString("defaultlanguage", "en");//default-language=english
 			        		//Inject google translate link via javascript into all posts
 			        	    mWeb.loadUrl("javascript:(function() { " +  
@@ -206,7 +208,7 @@ public class MainActivity extends Activity {
 			        	    				"var btn = document.createElement('div'); "+//makes new div
 			        	    				"var selectpost = encodeURIComponent(ltrs.item(i).innerHTML); "+//retrive select post
 			        	    				//"var selectpost = 'google is a search '; "+
-			        	    				"btn.setAttribute('onclick','alert(window.jsinterface.GoogleTranslate( \""+main_domain+"\",  \""+this.googleapikey+"\", \""+this.defaultlanguage+"\", \"'+selectpost+'\" ));'); "+//adds onclick-handler
+			        	    				"btn.setAttribute('onclick','alert(window.jsinterface.Translate( \""+main_domain+"\",  \""+this.googleapikey+"\", \""+this.defaultlanguage+"\", \"'+selectpost+'\" ));'); "+//adds onclick-handler
 			        	    				"btn.setAttribute('style','margin:15px 0px 15px 0px;'); "+//adds style
 			        	    				"btn.id='btn_translate_id_'+i; "+//adds id
 			        	    				"btn.innerHTML='Translate this post'; "+//title on link.

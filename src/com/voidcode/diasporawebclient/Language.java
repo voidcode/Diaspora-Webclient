@@ -30,7 +30,7 @@ package com.voidcode.diasporawebclient;
  * 
  */
 public enum Language {
-		YourLanguage("none"),
+		YourLanguage("en"),
         ALBANIAN("sq"),
         ARABIC("ar"),
         BELARUSIAN("be"),
