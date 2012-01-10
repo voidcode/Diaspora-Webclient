@@ -31,7 +31,7 @@ public class TranslateActivity extends Activity {
         // load google-translate-api-key
     	SharedPreferences preferences = getSharedPreferences(TRANSLATE_FILENAME, MODE_PRIVATE);
     	this.googleapikey = preferences.getString("googleapikey", "microsoft-translator");
-    	this.current_select_language_in_spinner = preferences.getInt("current_select_language_in_spinner", 13);//13 is default for engelsk(in Language class)
+    	this.current_select_language_in_spinner = preferences.getInt("current_select_language_in_spinner", 12);//12 is default for engelsk(see Language.java)
     	editTextGoogleApiKey = (EditText) findViewById(R.id.editText_googleapikey);
     	
     	//fill language spinner with support languages

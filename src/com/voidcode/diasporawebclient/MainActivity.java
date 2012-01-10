@@ -45,6 +45,35 @@ public class MainActivity extends Activity {
 	        	// set the home screen
 	        	setContentView(R.layout.main);
 	        	
+	        	mWeb = (WebView) findViewById(R.id.webView_main);
+		        // set Javascript
+		        WebSettings settings = mWeb.getSettings();
+		        settings.setJavaScriptEnabled(true);
+		        
+		        //set cache size to 8mb by default.
+		        settings.setCacheMode(1);
+		        settings.setAppCacheMaxSize(1024*1024*8);
+		        settings.setDomStorageEnabled(true);
+		        settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
+		        settings.setAllowFileAccess(true);
+		        settings.setAppCacheEnabled(true);
+		        
+		        //settings.setBuiltInZoomControls(true);
+	        	
+		        // adds JSInterface class to webview
+		        if(userHasEnableTranslate())
+        		{	
+        			mWeb.addJavascriptInterface(new JSInterface(), "jsinterface");
+        		}
+		        //fix to bug 2: cannot reshare
+		        //see: https://github.com/voidcode/Diaspora-Webclient/issues/2
+		        mWeb.setWebChromeClient(new WebChromeClient() {
+		        	public boolean onJsAlert(WebView view, String url, String message, JsResult result)
+		            {            
+		        		 return super.onJsAlert(view, url, message, result);
+		            }
+		        });	     
+		        
 	        	// load main domain´s rooturl
 	        	SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
 	        	this.main_domain = preferences.getString("currentpod", ""); 
@@ -133,20 +162,6 @@ public class MainActivity extends Activity {
 		} 
 		public void startDiasporaBrowser(String uri)
 		{
-			 	mWeb = (WebView) findViewById(R.id.webView_main);
-		        // set Javascript
-		        WebSettings settings = mWeb.getSettings();
-		        settings.setJavaScriptEnabled(true);
-		        
-		        //set cache size to 8mb by default.
-		        settings.setAppCacheMaxSize(1024*1024*8);
-		        settings.setDomStorageEnabled(true);
-		        settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
-		        settings.setAllowFileAccess(true);
-		        settings.setAppCacheEnabled(true);
-		        
-		        //settings.setBuiltInZoomControls(true);
-		        
 		        //get current uri an format it into a title for the AlertDialog
 		        String loadingmsg=uri.substring(1, 2).toUpperCase()+uri.substring(2); 
 		        if(uri.equals("/status_messages/new")) //this is just a workaround
@@ -155,18 +170,6 @@ public class MainActivity extends Activity {
 		        } 
 		        //the init state of progress dialog
 		        mProgress = ProgressDialog.show(this, loadingmsg, "Please wait a moment...");
-		        //fix to bug 2: cannot reshare
-		        //see: https://github.com/voidcode/Diaspora-Webclient/issues/2
-		        mWeb.setWebChromeClient(new WebChromeClient() {
-		        	public boolean onJsAlert(WebView view, String url, String message, JsResult result)
-		            {            
-		        		 return super.onJsAlert(view, url, message, result);
-		            }
-		        });
-		        // adds JSInterface class to webview
-		        if(userHasEnableTranslate())
-		        	mWeb.addJavascriptInterface(new JSInterface(), "jsinterface");
-		        
 		        mWeb.setWebViewClient(new WebViewClient() {
 		        	private String googleapikey;
 					private String defaultlanguage;
@@ -190,11 +193,8 @@ public class MainActivity extends Activity {
 		        	    }
 		        	}
 		        	public void onPageFinished(WebView view, String url) { // when finish loading page
-		        		if(mProgress.isShowing()) {
-		        			mProgress.dismiss();
-		        		}
 		        		if(userHasEnableTranslate())//adds translate link to all post
-		        		{	
+		        		{
 		        			SharedPreferences preferences = getSharedPreferences(TRANSLATE_FILENAME, MODE_PRIVATE);
 		        	    	this.googleapikey = preferences.getString("googleapikey", "microsoft-translator");
 		        	    	this.defaultlanguage = preferences.getString("defaultlanguage", "en");//default-language=english
@@ -216,7 +216,10 @@ public class MainActivity extends Activity {
 			        	    				"ltrs.item(i).appendChild(btn); "+ 
 			        	    			"} "+
 			        	                "})()");  
-		        		 }
+		        		}
+		        		if(mProgress.isShowing()) {
+		        			mProgress.dismiss();
+		        		}
 		        	}
 		        });      
 		        // open pages in webview

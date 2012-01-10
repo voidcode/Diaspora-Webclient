@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -17,6 +18,19 @@ public class ShareActivity extends MainActivity {
         {
         	if(!this.main_domain.equals(""))
         	{	
+        		
+		        WebSettings settings = mWeb.getSettings();
+		        settings.setJavaScriptEnabled(true);// set Javascript
+		        
+		        //set cache size to 8mb by default.
+		        settings.setCacheMode(1);
+		        settings.setAppCacheMaxSize(1024*1024*8);
+		        settings.setDomStorageEnabled(true);
+		        settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
+		        settings.setAllowFileAccess(true);
+		        settings.setAppCacheEnabled(true);
+		        
+		        //settings.setBuiltInZoomControls(true);
         		// load: open new messages
         		mWeb.loadUrl("https://"+main_domain+"/status_messages/new");
         		
