@@ -52,11 +52,11 @@ public class MainActivity extends Activity {
 		        
 		        //set cache size to 8mb by default.
 		        settings.setCacheMode(1);
-		        settings.setAppCacheMaxSize(1024*1024*8);
-		        settings.setDomStorageEnabled(true);
-		        settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
-		        settings.setAllowFileAccess(true);
-		        settings.setAppCacheEnabled(true);
+		       // settings.setAppCacheMaxSize(1024*1024*8);
+		       // settings.setDomStorageEnabled(true);
+		       // settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
+		       // settings.setAllowFileAccess(true);
+		       // settings.setAppCacheEnabled(true);
 		        
 		        //settings.setBuiltInZoomControls(true);
 	        	
