@@ -52,11 +52,11 @@ public class MainActivity extends Activity {
 		        
 		        //set cache size to 8mb by default.
 		        settings.setCacheMode(1);
-		       // settings.setAppCacheMaxSize(1024*1024*8);
-		       // settings.setDomStorageEnabled(true);
-		       // settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
-		       // settings.setAllowFileAccess(true);
-		       // settings.setAppCacheEnabled(true);
+		        settings.setAppCacheMaxSize(1024*1024*8);
+		        settings.setDomStorageEnabled(true);
+		        settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
+		        settings.setAllowFileAccess(true);
+		        settings.setAppCacheEnabled(true);
 		        
 		        //settings.setBuiltInZoomControls(true);
 	        	
@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
 	        	//then open SettingsActivity
 	        	if(this.main_domain.equals("")) 
 	        	{
-	        		startActivity(new Intent(this, SettingsActivity.class));	
+	        		startActivity(new Intent(this, PodSettingsActivity.class));	
 	        	}
 	        	else
 	        	{
@@ -256,9 +256,9 @@ public class MainActivity extends Activity {
 				    	this.finish();
 				    	startActivity(new Intent(this, TranslateActivity.class));
 				    	return true;
-				    case R.id.mainmenu_settings:
+				    case R.id.mainmenu_podsettings:
 				    	this.finish();
-				    	startActivity(new Intent(this, SettingsActivity.class));
+				    	startActivity(new Intent(this, PodSettingsActivity.class));
 				    	return true;
 					case R.id.mainmenu_tips:
 				    	 mWeb.loadUrl("file:///android_asset/tips.html");

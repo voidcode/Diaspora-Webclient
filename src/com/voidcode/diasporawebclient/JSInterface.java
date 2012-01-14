@@ -14,7 +14,7 @@ public class JSInterface {
 		String decodetext = URLDecoder.decode(text);
 		String rawtext = decodetext.replaceAll("\\<.*?\\>", "");//remove all htmltags
 		//TODO: find out if google is tacking money for 'none' translate word(HEX23...the..word),
-		//if, then make it so all tag is remove form the 'rawtext' and then add it back to the 'translatePost'(after: Translate.DEFAULT.execute)
+		//if, then make it so all tag is remove form the 'rawtext' anded then add it back to the 'translatePost'(after: Translate.DEFAULT.execute)
 		rawtext = rawtext.replaceAll("#", "HEX23");//format all #tags so google-translate don´t translate the #tag
 		rawtext = rawtext.trim();//remove end-spaces 	
 		// Set the HTTP referrer to your website address.
