@@ -55,5 +55,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider" />
         </receiver>
+        <receiver android:name=".receiver.ConnectionChangeReceiver"
+	            android:label="NetworkConnection">
+			    <intent-filter>
+			      <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+			    </intent-filter>
+		</receiver>
     </application>
 </manifest>

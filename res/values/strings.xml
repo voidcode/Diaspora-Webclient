@@ -7,7 +7,6 @@
     <string name="menu_findtag">Find tag</string>
     <string name="menu_podsettings">PodSettings</string>
     <string name="menu_tips">Tips</string>
-    <string name="menu_donation">Donation</string>
     <string name="menu_translate">Translate</string> 
     <string name="menu_contacts">Contacts</string>
     <string name="menu_notifications">Notifications</string>
@@ -34,12 +33,13 @@
      <string name="setupinternet_text">This app require a internet connection!</string>
      <string name="setupinternet_button_wirelesssettings">Wireless settings</string>
      <string name="setupinternet_button">Close</string>
-     <string name="findtag_h1">Findtag</string>
-     <string name="findtag_p">Type a word and see what the stream contains</string>
-     <string name="findtag_button">See it´s stream</string>
-     <string name="findtag_alert_title">Search by #tag</string>
-     <string name="findtag_alert_validate_needsomedata">Try to add a tag like: #newhere or #art</string>
-     <string name="findtag" >findtag</string>
+     <string name="search_h1">Findtag</string>
+     <string name="search_p">Type a word and see what the stream contains</string>
+     <string name="search_button">See it´s stream</string>
+     <string name="search_alert_title">Search</string>
+     <string name="search_alert_bypeople_validate_needsomedata">Please add a name</string>
+     <string name="search_alert_bytags_validate_needsomedata">Try to add a tag like: #newhere or #art</string>
+     <string name="search" >findtag</string>
      
          
      <string name="podsettings_button_close">Ok</string>
@@ -48,6 +48,6 @@
      <string name="translate_googlekey_h1">Add your translate api-key here.</string>
      <string name="translate_button_text">Use this key</string>
      <string name="translate_button_linkto_googleapiconsole">Google api console</string>
-     <string name="translate_howto_text">You can use Microsoft-translator for free, just type microsoft-translator as your api-key. You can use Google Translate API v2, this is based on usage(payment). Translation usage is calculated in millions of characters (M), where 1 M = 10^6 characters. Important: Google Translate API v2 requires billing information for all accounts before you can start using the service. To sign up for billing, sign in to the Google APIs console and click the Billing tab. 1 M characters of text = $20.</string>
+     <string name="translate_howto_text">You can use Microsoft-translator for free, just type microsoft-translator as your api-key. You can use Google Translate(payment). Translation usage is calculated in millions of characters (M), where 1 M = 10^6 characters = $20. Important: this requires billing information before you can start using the service. To sign up for billing, sign in to the Google APIs console and click the Billing tab.</string>
      <string name="translate_button_howto_obtain_googletranslatekey">See how you obtain the Google Translate Key</string>
 </resources>

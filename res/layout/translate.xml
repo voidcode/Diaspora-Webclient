@@ -13,7 +13,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:src="@drawable/topmenu" />
-
+		    
 		    <TextView
 		        android:id="@+id/textView3"
 		        android:layout_width="fill_parent"
@@ -25,7 +25,8 @@
 	<Spinner
 	    android:id="@+id/translate_spinner_language"
 	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content" />
+	    android:layout_height="wrap_content" />
+
 	<TextView
 	    android:id="@+id/textView1"
 	    android:layout_width="fill_parent"
@@ -54,7 +55,8 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:text="@string/translate_howto_text"
-	    android:textAppearance="?android:attr/textAppearanceSmall" />
+	    android:textAppearance="?android:attr/textAppearanceSmall" />
+
 	<Button
 	    android:id="@+id/button2"
 	    android:layout_width="fill_parent"

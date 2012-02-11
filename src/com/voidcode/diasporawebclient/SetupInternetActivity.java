@@ -18,6 +18,7 @@ public class SetupInternetActivity extends Activity {
     }
 	public void onclick_button_wireless_settings(View v)
 	{
+		//show/ open wireless settings
 	    startActivity( new Intent(Settings.ACTION_WIRELESS_SETTINGS));
 	}
 	public void onclick_button_close(View v)

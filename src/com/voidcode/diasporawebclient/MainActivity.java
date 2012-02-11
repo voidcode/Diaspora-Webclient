@@ -8,7 +8,6 @@ import com.voidcode.diasporawebclient.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -69,11 +68,10 @@ public class MainActivity extends Activity {
 		        //see: https://github.com/voidcode/Diaspora-Webclient/issues/2
 		        mWeb.setWebChromeClient(new WebChromeClient() {
 		        	public boolean onJsAlert(WebView view, String url, String message, JsResult result)
-		            {            
-		        		 return super.onJsAlert(view, url, message, result);
+		            {    
+		        		return super.onJsAlert(view, url, message, result);
 		            }
 		        });	     
-		        
 	        	// load main domain´s rooturl
 	        	SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
 	        	this.main_domain = preferences.getString("currentpod", ""); 
@@ -87,7 +85,7 @@ public class MainActivity extends Activity {
 	        	else
 	        	{
 	        		// goto users stream
-	        		startDiasporaBrowser("/stream");
+	        		startDiasporaBrowser("/explore");
 	        		Toast.makeText(getApplicationContext(), "Pod: "+main_domain, Toast.LENGTH_SHORT).show();
 	        	}
 	        }
@@ -103,7 +101,7 @@ public class MainActivity extends Activity {
 		{
 			// load google-api-key 
 	    	SharedPreferences preferences = getSharedPreferences("translate_settings", MODE_PRIVATE);
-	    	String googleapikey = preferences.getString("googleapikey", "microsoft-translator");
+	    	String googleapikey = preferences.getString("googleapikey", "");
 	    	if(!googleapikey.equals(""))//if user has added a google-api-key
 	    		return true;
 	    	else if(googleapikey.toLowerCase().equals("microsoft-translator"))
@@ -113,7 +111,7 @@ public class MainActivity extends Activity {
 		}
 		public void onclick_stream(View v)
 		{
-			startDiasporaBrowser("/stream");
+			startDiasporaBrowser("/explore");//goto start or logon pages
 		}
 		public void onclick_share(View v)
 		{
@@ -124,31 +122,41 @@ public class MainActivity extends Activity {
 			startDiasporaBrowser("/contacts");
 		}
 		  
-		public void onclick_findtag(View v)
+		public void onclick_search(View v)
 		{
 			final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			final EditText input = new EditText(this);
 			alert.setView(input);
-			alert.setTitle(R.string.findtag_alert_title);
-			alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			alert.setTitle(R.string.search_alert_title);
+			alert.setPositiveButton("By people", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					String inputtag = input.getText().toString().trim();
 					// this validate the input data for tagfind
 					if(inputtag.equals("") || inputtag.equals(null))
 					{
 						dialog.cancel(); // if user don´t have added a tag
-						Toast.makeText(getApplicationContext(), R.string.findtag_alert_validate_needsomedata, Toast.LENGTH_LONG).show();
+						Toast.makeText(getApplicationContext(), R.string.search_alert_bypeople_validate_needsomedata, Toast.LENGTH_LONG).show();
 					}
 					else // if user have added a search tag
 					{
-						startDiasporaBrowser("/tags/"+inputtag);
+						startDiasporaBrowser("/people.mobile?q="+inputtag);
 					}
 				}
 			});
-			alert.setNegativeButton("Cancel",
+			alert.setNegativeButton("By tags",
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int whichButton) {
-							dialog.cancel();
+							String inputtag = input.getText().toString().trim();
+							// this validate the input data for tagfind
+							if(inputtag.equals("") || inputtag.equals(null))
+							{
+								dialog.cancel(); // if user don´t have added a tag
+								Toast.makeText(getApplicationContext(), R.string.search_alert_bytags_validate_needsomedata, Toast.LENGTH_LONG).show();
+							}
+							else // if user have added a search tag
+							{
+								startDiasporaBrowser("/tags/"+inputtag);
+							}
 						}
 					});
 			alert.show();
@@ -262,9 +270,6 @@ public class MainActivity extends Activity {
 				    	return true;
 					case R.id.mainmenu_tips:
 				    	 mWeb.loadUrl("file:///android_asset/tips.html");
-				    	return true;
-				    case R.id.mainmenu_donation:
-				    	 mWeb.loadUrl("file:///android_asset/donation.html");
 				    	return true;	
 				    case R.id.mainmenu_exit:
 				    	this.finish();
@@ -275,7 +280,7 @@ public class MainActivity extends Activity {
 		   }
 		   private boolean isNetworkAvailable()
 		   {
-		    	ConnectivityManager connec = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		    	ConnectivityManager connec = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
 		    	NetworkInfo mobileInfo = connec.getNetworkInfo(0);
 		    	NetworkInfo wifiInfo = connec.getNetworkInfo(1);
 		    	NetworkInfo wimaxInfo = connec.getNetworkInfo(6);

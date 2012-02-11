@@ -35,7 +35,7 @@
 	            android:src="@drawable/ic_menu_home" />
 	
 	        <ImageButton
-	            android:onClick="onclick_findtag"
+	            android:onClick="onclick_search"
 	            android:id="@+id/imageButton4"
 	            android:layout_width="wrap_content"
 	            android:background="@null"

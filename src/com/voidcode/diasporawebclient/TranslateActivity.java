@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -43,7 +42,6 @@ public class TranslateActivity extends Activity {
     }
 	public void fillLanguageSpinner()
 	{
-		
 		spinnerLanguage = (Spinner) findViewById(R.id.translate_spinner_language);
 		spinnerLanguage.setAdapter(new ArrayAdapter<Language>(this, android.R.layout.simple_spinner_item, Language.values()));
 		spinnerLanguage.setSelection(this.current_select_language_in_spinner);//
