@@ -242,10 +242,6 @@ public class MainActivity extends Activity {
 		                return true;
 		            }
 		        }
-		        if (keyCode == KeyEvent.KEYCODE_HOME){ 
-		        	finish();
-		            return true;
-		        }
 		        return super.onKeyDown(keyCode, event); 
 		    }
 		    //Build the main menu in MainActivity

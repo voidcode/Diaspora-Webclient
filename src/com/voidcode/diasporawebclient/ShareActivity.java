@@ -83,16 +83,7 @@ public class ShareActivity extends MainActivity {
 	public void onConfigurationChanged(Configuration newConfig) 
 	{
 		super.onConfigurationChanged(newConfig);
-	} 
-	// Handle the Back button in WebView, to back in history.
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_HOME){ 
-        	finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event); 
-    }
+	}
 	private boolean isNetworkAvailable()
 	{
 		ConnectivityManager connec = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
