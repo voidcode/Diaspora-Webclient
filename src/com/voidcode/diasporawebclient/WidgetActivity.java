@@ -24,6 +24,8 @@ public class WidgetActivity extends AppWidgetProvider {
             Intent share_intent = new Intent(context, ShareActivity.class);
             PendingIntent share_pendingIntent = PendingIntent.getActivity(context, 0, share_intent, 0);
             
+            
+            
             // Create an Intent to launch MainActivity
             Intent main_intent = new Intent(context, MainActivity.class);
             PendingIntent main_pendingIntent = PendingIntent.getActivity(context, 0, main_intent, 0);

@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -83,6 +84,15 @@ public class ShareActivity extends MainActivity {
 	{
 		super.onConfigurationChanged(newConfig);
 	} 
+	// Handle the Back button in WebView, to back in history.
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_HOME){ 
+        	finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event); 
+    }
 	private boolean isNetworkAvailable()
 	{
 		ConnectivityManager connec = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -242,6 +242,10 @@ public class MainActivity extends Activity {
 		                return true;
 		            }
 		        }
+		        if (keyCode == KeyEvent.KEYCODE_HOME){ 
+		        	finish();
+		            return true;
+		        }
 		        return super.onKeyDown(keyCode, event); 
 		    }
 		    //Build the main menu in MainActivity
@@ -271,9 +275,6 @@ public class MainActivity extends Activity {
 					case R.id.mainmenu_tips:
 				    	 mWeb.loadUrl("file:///android_asset/tips.html");
 				    	return true;	
-				    case R.id.mainmenu_exit:
-				    	this.finish();
-						return true;	
 				    default:
 				        return super.onOptionsItemSelected(item);
 			    }
