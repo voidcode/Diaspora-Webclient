@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.WebSettings.RenderPriority;
 
 public class ShareActivity extends MainActivity {
 	@Override
@@ -22,8 +23,10 @@ public class ShareActivity extends MainActivity {
 		        WebSettings settings = mWeb.getSettings();
 		        settings.setJavaScriptEnabled(true);// set Javascript
 		        
+		       // settings.setRenderPriority(RenderPriority.HIGH);
+		        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+		        
 		        //set cache size to 8mb by default.
-		        settings.setCacheMode(1);
 		        settings.setAppCacheMaxSize(1024*1024*8);
 		        settings.setDomStorageEnabled(true);
 		        settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
@@ -83,7 +86,7 @@ public class ShareActivity extends MainActivity {
 	public void onConfigurationChanged(Configuration newConfig) 
 	{
 		super.onConfigurationChanged(newConfig);
-	}
+	} 
 	private boolean isNetworkAvailable()
 	{
 		ConnectivityManager connec = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
