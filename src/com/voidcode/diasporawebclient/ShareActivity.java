@@ -24,14 +24,14 @@ public class ShareActivity extends MainActivity {
 		        settings.setJavaScriptEnabled(true);// set Javascript
 		        
 		       // settings.setRenderPriority(RenderPriority.HIGH);
-		        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+		        settings.setCacheMode(WebSettings.LOAD_NORMAL);
 		        
 		        //set cache size to 8mb by default.
-		        settings.setAppCacheMaxSize(1024*1024*8);
-		        settings.setDomStorageEnabled(true);
-		        settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
-		        settings.setAllowFileAccess(true);
-		        settings.setAppCacheEnabled(true);
+		        //settings.setAppCacheMaxSize(1024*1024*8);
+		        //settings.setDomStorageEnabled(true);
+		        //settings.setAppCachePath("/data/data/com.voidcode.diasporawebclient/cache");
+		        //settings.setAllowFileAccess(true);
+		        //settings.setAppCacheEnabled(true);
 		        
 		        //settings.setBuiltInZoomControls(true);
         		// load: open new messages
