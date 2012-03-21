@@ -24,8 +24,7 @@
     <EditText
         android:id="@+id/editText_currentpod"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/podsettings_currentpod">
+        android:layout_height="wrap_content">
     </EditText>
     <Button
         android:id="@+id/settings_button_save"

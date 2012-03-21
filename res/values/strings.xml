@@ -19,7 +19,6 @@
     
     <string name="podsettings_h1">Settings.</string>
     <string name="podsettings_text_currentpod">Find your pod.</string>
-    <string name="podsettings_currentpod"></string>
     
     <string name="podsettings_dialog_title">PodSettings</string>
   	<string name="podsettings_dialog_text">You have to choose a pod before you can logon Diaspora.\nWith this client you wil only be enable to logon pods there uses https.\nAll pods showing in the list is from podupti.me and uses https.</string>
