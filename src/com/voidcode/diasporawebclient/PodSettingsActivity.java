@@ -171,15 +171,19 @@ public class PodSettingsActivity extends Activity {
 	
 	private boolean isNetworkAvailable()
 	{
+		
 		ConnectivityManager connec = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo mobileInfo = connec.getNetworkInfo(0);
 		NetworkInfo wifiInfo = connec.getNetworkInfo(1);
 		NetworkInfo wimaxInfo = connec.getNetworkInfo(6);
-		if (wimaxInfo!=null) {
-			return mobileInfo.isConnected() || wifiInfo.isConnected()|| wimaxInfo.isConnected();
-		}
-		else {
-			return mobileInfo.isConnected() || wifiInfo.isConnected();
-		}
+		
+		//fix to bug 14 by vrthra: https://github.com/voidcode/Diaspora-Webclient/issues/14
+		boolean bm = false;
+		boolean bw = false;
+		boolean bx = false;
+		if (mobileInfo != null) bm = mobileInfo.isConnected();
+		if (wimaxInfo != null) bx = wimaxInfo.isConnected();
+		if (wifiInfo != null) bw = wifiInfo.isConnected();
+		return (bm || bw || bx);
 	}
 }

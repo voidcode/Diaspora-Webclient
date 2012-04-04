@@ -11,6 +11,7 @@ import com.voidcode.diasporawebclient.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -289,17 +290,20 @@ public class MainActivity extends Activity {
 				        return super.onOptionsItemSelected(item);
 			    }
 		   }
-		   private boolean isNetworkAvailable()
-		   {
-		    	ConnectivityManager connec = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
-		    	NetworkInfo mobileInfo = connec.getNetworkInfo(0);
-		    	NetworkInfo wifiInfo = connec.getNetworkInfo(1);
-		    	NetworkInfo wimaxInfo = connec.getNetworkInfo(6);
-		    	if (wimaxInfo!=null) {
-		    		return mobileInfo.isConnected() || wifiInfo.isConnected()|| wimaxInfo.isConnected();
-		    	}
-		    	else {
-		    		return mobileInfo.isConnected() || wifiInfo.isConnected();
-		    	}
-		   }
+		    private boolean isNetworkAvailable()
+			{
+				ConnectivityManager connec = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo mobileInfo = connec.getNetworkInfo(0);
+				NetworkInfo wifiInfo = connec.getNetworkInfo(1);
+				NetworkInfo wimaxInfo = connec.getNetworkInfo(6);
+				
+				//fix to bug 14 by vrthra: https://github.com/voidcode/Diaspora-Webclient/issues/14
+				boolean bm = false;
+				boolean bw = false;
+				boolean bx = false;
+				if (mobileInfo != null) bm = mobileInfo.isConnected();
+				if (wimaxInfo != null) bx = wimaxInfo.isConnected();
+				if (wifiInfo != null) bw = wifiInfo.isConnected();
+				return (bm || bw || bx);
+			}
 }
