@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 	        super.onCreate(savedInstanceState);
 	        if (isNetworkAvailable()) 
 	        {
-	        	// load main domain´s rooturl
+	        	// load main domainï¿½s rooturl
 	        	SharedPreferences preferences = getSharedPreferences(SETTINGS_FILENAME, MODE_PRIVATE);
 	        	this.main_domain = preferences.getString("currentpod", ""); 
 	        	
@@ -148,7 +148,7 @@ public class MainActivity extends Activity {
 		        //start up the webbrowser------------------------------------------------END
 		        //------------------------------------------------------------------------//
 	        	
-	        	//if user don´t has set a currentpod
+	        	//if user donï¿½t has set a currentpod
 	        	//then open SettingsActivity
 	        	if(this.main_domain.equals("")) 
 	        	{
@@ -166,7 +166,7 @@ public class MainActivity extends Activity {
 	        }
 	        else
 	        {
-	        	// if user don´t have internet
+	        	// if user donï¿½t have internet
 	        	this.finish();
         		startActivity(new Intent(this, SetupInternetActivity.class));
 	        }
@@ -212,7 +212,7 @@ public class MainActivity extends Activity {
 					// this validate the input data for tagfind
 					if(inputtag.equals("") || inputtag.equals(null))
 					{
-						dialog.cancel(); // if user don´t have added a tag
+						dialog.cancel(); // if user donï¿½t have added a tag
 						Toast.makeText(getApplicationContext(), R.string.search_alert_bypeople_validate_needsomedata, Toast.LENGTH_LONG).show();
 					}
 					else // if user have added a search tag
@@ -226,7 +226,7 @@ public class MainActivity extends Activity {
 						public void onClick(DialogInterface dialog, int whichButton) {
 							String inputtag = input.getText().toString().trim();
 							// this validate the input data for tagfind
-							if(inputtag == null || inputtag.isEmpty())
+							if(inputtag == null || inputtag.length() == 0)
 							{
 								dialog.cancel(); // if user hasn't added a tag
 								Toast.makeText(getApplicationContext(), R.string.search_alert_bytags_validate_needsomedata, Toast.LENGTH_LONG).show();
