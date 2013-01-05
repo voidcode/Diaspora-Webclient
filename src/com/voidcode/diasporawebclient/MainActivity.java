@@ -228,7 +228,7 @@ public class MainActivity extends Activity {
 							// this validate the input data for tagfind
 							if(inputtag == null || inputtag.isEmpty())
 							{
-								dialog.cancel(); // if user don�t have added a tag
+								dialog.cancel(); // if user hasn't added a tag
 								Toast.makeText(getApplicationContext(), R.string.search_alert_bytags_validate_needsomedata, Toast.LENGTH_LONG).show();
 							}
 							else // if user have added a search tag
