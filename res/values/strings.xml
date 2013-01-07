@@ -21,7 +21,7 @@
     <string name="podsettings_text_currentpod">Find your pod.</string>
     
     <string name="podsettings_dialog_title">PodSettings</string>
-  	<string name="podsettings_dialog_text">You have to choose a pod before you can logon Diaspora.\nWith this client you wil only be enable to logon pods there uses https.\nAll pods showing in the list is from podupti.me and uses https.</string>
+  	<string name="podsettings_dialog_text">You have to choose a pod before you can login to Diaspora.\nWith this client you wil only be able to login to pods that use https.\nAll pods showing in the list are from podupti.me and use https.</string>
         
     <string name="widget_button_share">Share on diaspora</string>   
      
@@ -40,7 +40,7 @@
      <string name="search" >findtag</string>
      
          
-     <string name="podsettings_button_close">Ok</string>
+     <string name="podsettings_button_close">OK</string>
      
      <string name="translate_chooselanguage_h1">Translate post to this language.</string>
      <string name="translate_googlekey_h1">Add your translate api-key here.</string>
