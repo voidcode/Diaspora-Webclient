@@ -21,9 +21,9 @@
     <string name="podsettings_text_currentpod">Find your pod.</string>
     
     <string name="podsettings_dialog_title">PodSettings</string>
-  	<string name="podsettings_dialog_text">You have to choose a pod before you can login to Diaspora.\nWith this client you wil only be able to login to pods that use https.\nAll pods showing in the list are from podupti.me and use https.</string>
+  	<string name="podsettings_dialog_text">You have to choose a pod before you can login to Diaspora.\nWith this client you will only be able to login to pods that use https.\nAll pods showing in the list are from podupti.me and use https.</string>
         
-    <string name="widget_button_share">Share on diaspora</string>   
+    <string name="widget_button_share">Share on diaspora</string>
      
      <string name="podsettings_button_save">Use this pod</string>
      
